@@ -1,6 +1,6 @@
 :root{
   --bg:#090b0a;--panel:#101411;--panel2:#141915;--line:rgba(255,255,255,.12);
-  --text:#f4f7f5;--muted:#8e9a93;--accent:#c6ff32;--danger:#ff6262;--max:1040px
+  --text:#f4f7f5;--muted:#9a92a6;--accent:#D9C4FF;--danger:#ff6262;--max:1040px
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -38,7 +38,7 @@ a{color:inherit;text-decoration:none}
 .process strong{display:block;margin:15px 0 7px;font-size:15px}.process p{margin:0;color:#748078;font-size:10px;line-height:1.6}
 .guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .info-card{background:var(--panel);border:1px solid var(--line);padding:28px}
-.card-icon{display:grid;place-items:center;width:32px;height:32px;border:1px solid rgba(198,255,50,.35);color:var(--accent);margin-bottom:28px}
+.card-icon{display:grid;place-items:center;width:32px;height:32px;border:1px solid rgba(217,196,255,.45);color:var(--accent);margin-bottom:28px}
 .info-card h2{font-size:18px;margin:0 0 20px}.info-card ul,.info-card ol{margin:0;padding:0;list-style:none;color:#aeb7b1;font-size:12px}
 .info-card li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07)}
 .info-card ol b{font:800 9px/1 Montserrat,sans-serif;color:var(--accent);margin-right:12px}
@@ -66,7 +66,7 @@ a{color:inherit;text-decoration:none}
 .choice-row label{cursor:pointer}
 .choice-row input{position:absolute;opacity:0;pointer-events:none}
 .choice-row span{height:49px;display:grid;place-items:center;border:1px solid var(--line);background:#0e120f;color:#77827b;font:800 11px/1 Montserrat,sans-serif;transition:.2s}
-.choice-row input:checked+span{border-color:var(--accent);background:rgba(198,255,50,.09);color:var(--accent)}
+.choice-row input:checked+span{border-color:var(--accent);background:rgba(217,196,255,.10);color:var(--accent)}
 .agree{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);padding:18px;margin-top:30px;color:#9ba69f;font-size:11px;line-height:1.6;cursor:pointer}
 .agree input{accent-color:var(--accent);margin-top:3px}
 .submit-zone{display:flex;justify-content:space-between;gap:35px;align-items:center;padding:32px;margin-top:15px;background:var(--accent);color:#0a0d0b}

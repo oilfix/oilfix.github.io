@@ -6,8 +6,8 @@
   --line:rgba(255,255,255,.11);
   --text:#f3f7f4;
   --muted:#9ba7a0;
-  --accent:#c6ff32;
-  --accent2:#88ff00;
+  --accent:#D9C4FF;
+  --accent2:#B892FF;
   --danger:#ff5f5f;
   --max:1320px;
 }
@@ -40,7 +40,7 @@ button{font:inherit}
   border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);height:40px;border-radius:999px;
 }
 .audio-btn{display:flex;align-items:center;gap:9px;padding:0 14px;font:700 10px/1 Montserrat,sans-serif;letter-spacing:.12em;cursor:pointer}
-.audio-btn.playing{border-color:rgba(198,255,50,.55);color:var(--accent)}
+.audio-btn.playing{border-color:rgba(217,196,255,.55);color:var(--accent)}
 .audio-bars{display:flex;align-items:center;gap:2px;height:11px}
 .audio-bars i{width:2px;height:5px;background:currentColor}
 .audio-btn.playing .audio-bars i:nth-child(1){animation:bar .7s infinite alternate}
@@ -64,7 +64,7 @@ button{font:inherit}
   min-height:100svh;position:relative;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);
   align-items:end;gap:5vw;padding:150px clamp(24px,6vw,90px) 90px;overflow:hidden;
   background:
-    radial-gradient(circle at 70% 22%,rgba(198,255,50,.08),transparent 28%),
+    radial-gradient(circle at 70% 22%,rgba(217,196,255,.10),transparent 28%),
     linear-gradient(180deg,#080a09 0%,#0a0d0b 100%);
 }
 .hero-grid{
@@ -74,15 +74,15 @@ button{font:inherit}
   mask-image:linear-gradient(to bottom,transparent 12%,#000 80%);
 }
 .hero-glow{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none}
-.hero-glow-a{width:360px;height:360px;background:rgba(198,255,50,.09);right:7%;top:18%}
-.hero-glow-b{width:220px;height:220px;background:rgba(45,255,175,.06);left:12%;bottom:3%}
+.hero-glow-a{width:360px;height:360px;background:rgba(217,196,255,.10);right:7%;top:18%}
+.hero-glow-b{width:220px;height:220px;background:rgba(184,146,255,.08);left:12%;bottom:3%}
 .hero-content,.hero-side-card{position:relative;z-index:2}
 .hero-kicker{display:flex;gap:10px;align-items:center;color:#b3bdb7;font:700 10px/1 Montserrat,sans-serif;letter-spacing:.15em;margin-bottom:28px}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 18px var(--accent);animation:pulse 1.8s infinite}
 @keyframes pulse{50%{opacity:.35}}
 .hero h1{margin:0;font:900 clamp(54px,8vw,130px)/.78 Montserrat,sans-serif;letter-spacing:-.075em;text-transform:uppercase}
 .hero h1 .line{display:block}
-.hero h1 .accent{color:var(--accent);text-shadow:0 0 45px rgba(198,255,50,.13)}
+.hero h1 .accent{color:var(--accent);text-shadow:0 0 45px rgba(217,196,255,.18)}
 .hero-copy{margin:38px 0 0;color:#aeb7b1;font-size:clamp(14px,1.4vw,18px);line-height:1.9}
 .hero-copy strong{color:#fff}
 .hero-cta{display:flex;gap:10px;margin-top:34px;flex-wrap:wrap}
@@ -141,15 +141,15 @@ button{font:inherit}
 .service-tag{border:1px solid var(--line);border-radius:999px;padding:8px 12px;font:800 9px/1 Montserrat,sans-serif;letter-spacing:.1em;color:#8d9992}
 .price-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .price-card{background:var(--panel);border:1px solid var(--line);min-height:300px;padding:28px;display:flex;flex-direction:column;transition:.3s}
-.price-card.featured{background:linear-gradient(135deg,var(--accent),#88ff00);color:#0b0d0c}
+.price-card.featured{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#130e1d}
 .price-card:hover{transform:translateY(-5px);border-color:rgba(198,255,50,.4)}
 .price-top{display:flex;justify-content:space-between;font:800 10px/1 Montserrat,sans-serif;letter-spacing:.12em;color:#7f8b84}
-.price-card.featured .price-top{color:#354414}
+.price-card.featured .price-top{color:#4D3A6E}
 .price-name{margin:auto 0 7px;font-size:14px;font-weight:800}
 .price-value{font:900 clamp(56px,6vw,90px)/.9 Montserrat,sans-serif;letter-spacing:-.07em}
 .price-value small{font-size:13px;letter-spacing:0;margin-left:8px}
 .price-card p{margin:18px 0 0;color:var(--muted);font-size:12px}
-.price-card.featured p{color:#33420f}
+.price-card.featured p{color:#4D3A6E}
 .price-note{display:flex;align-items:center;gap:30px;margin-top:16px;padding:20px 24px;border:1px solid var(--line)}
 .price-note strong{color:var(--accent);font:800 10px/1 Montserrat,sans-serif;letter-spacing:.15em}
 .price-note p{margin:0;color:var(--muted);font-size:12px}
@@ -182,14 +182,14 @@ button{font:inherit}
 .penalty strong{font-size:17px}.penalty small{color:var(--muted)}
 .penalty.severe>span{background:rgba(255,95,95,.13);color:var(--danger)}
 .penalty-board>p{color:#758078;font-size:11px;line-height:1.7;margin:20px 0 0}
-.recruit{max-width:none;min-height:680px;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:var(--accent);color:#0a0d0b}
+.recruit{max-width:none;min-height:680px;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#120d1b}
 .recruit-bg{position:absolute;font:900 26vw/.8 Montserrat,sans-serif;letter-spacing:-.09em;color:rgba(9,13,10,.055);white-space:nowrap;left:50%;top:50%;transform:translate(-50%,-50%)}
 .recruit-inner{position:relative;z-index:1}
-.recruit .section-no{color:#24320e}.recruit h2 span{color:#0a0d0b;text-decoration:underline;text-decoration-thickness:.06em;text-underline-offset:.08em}
+.recruit .section-no{color:#4D3A6E}.recruit h2 span{color:#0a0d0b;text-decoration:underline;text-decoration-thickness:.06em;text-underline-offset:.08em}
 .recruit-inner>p{font-weight:700;line-height:1.8}
 .recruit-tags{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:25px 0 34px}
 .recruit-tags span{border:1px solid rgba(9,13,10,.25);border-radius:999px;padding:8px 12px;font-size:11px;font-weight:800}
-.recruit .btn-primary{background:#0a0d0b;color:#fff}.recruit .btn-primary:hover{background:#fff;color:#0a0d0b}
+.recruit .btn-primary{background:#120d1b;color:#fff}.recruit .btn-primary:hover{background:#fff;color:#120d1b}
 .btn-large{min-width:min(100%,330px);min-height:60px}
 footer{display:flex;justify-content:space-between;align-items:end;padding:55px clamp(24px,6vw,90px);background:#080a09;border-top:1px solid var(--line)}
 footer img{width:170px}footer p{font:700 9px/1.5 Montserrat,sans-serif;letter-spacing:.13em;color:#68726c}.footer-right{text-align:right}.footer-right small{color:#4f5853;font-size:10px}
