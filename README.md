@@ -54,3 +54,26 @@ applicationUrl: "https://forms.gle/여기에-주소",
 
 GitHub Pages에 올린 내용은 인터넷에 공개될 수 있으므로 개인정보, 비밀번호, 관리자 토큰,
 Discord 봇 토큰 같은 민감한 값은 절대 HTML/JS 파일에 넣지 마세요.
+
+
+## OILFIX 자체 지원서 페이지
+
+`apply.html`이 추가되었습니다. 메인 홈페이지의 `지원서 OPEN` 버튼은 자동으로 이 페이지로 이동합니다.
+
+지원서 접수 내용을 실제로 저장하려면:
+
+1. Google Sheets에서 새 스프레드시트를 만듭니다.
+2. `확장 프로그램` → `Apps Script`를 엽니다.
+3. 이 ZIP에 포함된 `google-apps-script.gs` 내용을 전부 붙여넣습니다.
+4. Apps Script에서 `배포` → `새 배포` → `웹 앱`을 선택합니다.
+5. 실행 사용자는 `나`, 액세스 권한은 지원자가 사용할 수 있도록 `모든 사용자`로 설정합니다.
+6. 배포 후 생성된 `https://script.google.com/macros/s/.../exec` 주소를 복사합니다.
+7. `site-config.js`에서 아래 항목에 붙여넣습니다.
+
+```js
+applicationEndpoint: "https://script.google.com/macros/s/여기에주소/exec",
+```
+
+이후 제출된 지원서는 Google Sheet의 `지원서` 시트에 행 단위로 자동 저장됩니다.
+
+> 주의: Google 계정 및 Apps Script 배포 권한은 사이트 소유자가 직접 승인해야 합니다.

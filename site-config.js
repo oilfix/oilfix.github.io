@@ -1,14 +1,14 @@
 /**
- * OILFIX 사이트에서 가장 자주 바꿀 값만 모아둔 파일입니다.
- * 주소는 반드시 https:// 로 시작하는 전체 URL로 입력하세요.
+ * OILFIX 사이트 설정
  */
 window.OILFIX_CONFIG = {
-  // 예: "https://forms.gle/xxxxxxxx"
-  applicationUrl: "",
+  // 메인 홈페이지의 지원하기 버튼은 OILFIX 자체 지원서 페이지로 연결됩니다.
+  applicationUrl: "apply.html",
 
-  // 원한다면 디스코드 초대 링크 등을 넣어도 됩니다.
+  // Google Apps Script 웹 앱 배포 후 생성되는 /exec 주소를 아래에 넣으세요.
+  // 예: "https://script.google.com/macros/s/XXXXXXXXXXXX/exec"
+  applicationEndpoint: "",
+
   discordUrl: "",
-
-  // true = BGM 기능 사용 / false = 버튼만 비활성화
   enableBgm: true
 };
