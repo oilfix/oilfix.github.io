@@ -7,7 +7,7 @@ window.OILFIX_CONFIG = {
 
   // Google Apps Script 웹 앱 배포 후 생성되는 /exec 주소를 아래에 넣으세요.
   // 예: "https://script.google.com/macros/s/XXXXXXXXXXXX/exec"
-  applicationEndpoint: "",
+  applicationEndpoint: "https://script.google.com/macros/s/AKfycbwFFvXUxiWlf4wdtmUKQbYMXEyfqrARZk2NvJ1zHvkQaod1rYGWf83zDE_-zboq0yDq/exec",
 
   discordUrl: "",
   enableBgm: true
