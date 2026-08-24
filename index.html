@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0d0b" />
+  <meta name="description" content="OILFIX 오일픽스 공식 홈페이지 — 주유 · 세차 · 정비 · 긴급 출장 · 직원 모집" />
+  <title>OILFIX | 오일픽스 공식 홈페이지</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Montserrat:wght@500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="오일픽스 홈">
+      <img src="assets/logo.svg" alt="OILFIX" />
+    </a>
+    <nav class="desktop-nav" aria-label="메인 메뉴">
+      <a href="#about">ABOUT</a>
+      <a href="#services">SERVICE</a>
+      <a href="#price">PRICE</a>
+      <a href="#team">TEAM</a>
+      <a href="#notice">NOTICE</a>
+      <a href="#blacklist">BLACKLIST</a>
+      <a href="#recruit">RECRUIT</a>
+    </nav>
+    <div class="top-actions">
+      <button class="audio-btn" id="audioBtn" type="button" aria-pressed="false">
+        <span class="audio-bars"><i></i><i></i><i></i></span>
+        <span id="audioLabel">BGM ON</span>
+      </button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="메뉴 열기">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <button class="mobile-close" id="mobileClose" aria-label="메뉴 닫기">×</button>
+    <div class="mobile-menu-inner">
+      <p class="eyebrow">OILFIX / NAVIGATION</p>
+      <a href="#about">ABOUT <span>01</span></a>
+      <a href="#services">SERVICE <span>02</span></a>
+      <a href="#price">PRICE <span>03</span></a>
+      <a href="#team">TEAM <span>04</span></a>
+      <a href="#notice">NOTICE <span>05</span></a>
+      <a href="#blacklist">BLACKLIST <span>06</span></a>
+      <a href="#recruit">RECRUIT <span>07</span></a>
+    </div>
+  </aside>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-a" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-b" aria-hidden="true"></div>
+
+      <div class="hero-content reveal">
+        <div class="hero-kicker">
+          <span class="live-dot"></span>
+          <span>OILFIX OFFICIAL / RECRUITMENT OPEN</span>
+        </div>
+        <h1>
+          <span class="line">FILL IT.</span>
+          <span class="line accent">FIX IT.</span>
+          <span class="line">OWN THE ROAD.</span>
+        </h1>
+        <p class="hero-copy">
+          주유부터 세차, 정비, 긴급 출장까지.<br />
+          한 가지 일만 반복하지 않는 <strong>자동차 서비스 팀 OILFIX.</strong>
+        </p>
+
+        <div class="hero-cta">
+          <button class="btn btn-primary" data-open-apply>
+            <span>지원서 OPEN</span><b>↗</b>
+          </button>
+          <a class="btn btn-ghost" href="#services">
+            <span>업무 둘러보기</span><b>↓</b>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-side-card reveal delay-1">
+        <div class="card-head">
+          <span>OILFIX / LIVE BOARD</span>
+          <span class="status">RECRUITING</span>
+        </div>
+        <div class="meter-wrap">
+          <div class="meter-label"><span>TEAM CAPACITY</span><strong>10 / 25</strong></div>
+          <div class="meter"><i style="width:40%"></i></div>
+        </div>
+        <div class="hero-mini-grid">
+          <div><small>WORK STYLE</small><strong>FLEXIBLE</strong></div>
+          <div><small>BUSINESS</small><strong>7+</strong></div>
+          <div><small>FOCUS</small><strong>SERVICE</strong></div>
+          <div><small>STATUS</small><strong>OPEN</strong></div>
+        </div>
+      </div>
+
+      <div class="scroll-hint">
+        <span>SCROLL TO EXPLORE</span>
+        <i></i>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>FUEL</span><b>✦</b><span>CAR WASH</span><b>✦</b><span>MECHANIC</span><b>✦</b>
+        <span>ROADSIDE</span><b>✦</b><span>REPAIR KIT</span><b>✦</b><span>TUNING</span><b>✦</b>
+        <span>FUEL</span><b>✦</b><span>CAR WASH</span><b>✦</b><span>MECHANIC</span><b>✦</b>
+        <span>ROADSIDE</span><b>✦</b><span>REPAIR KIT</span><b>✦</b><span>TUNING</span><b>✦</b>
+      </div>
+    </div>
+
+    <section class="section about" id="about">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-no">01 / ABOUT</p>
+          <h2>차를 채우고,<br><span>사람을 연결합니다.</span></h2>
+        </div>
+        <p class="section-desc">
+          오일픽스는 단순한 주유소가 아닙니다. 차량에 필요한 여러 서비스를
+          한 팀에서 경험하고, 서로 도우며 운영하는 자동차 서비스 팩션입니다.
+        </p>
+      </div>
+
+      <div class="manifesto-grid">
+        <article class="manifesto-card reveal">
+          <p>01</p>
+          <h3>쉬면서<br>일하는 직장</h3>
+          <span>강제적인 분위기보다, 맡은 시간에는 집중하고 함께할 때는 편하게.</span>
+        </article>
+        <article class="manifesto-card reveal delay-1">
+          <p>02</p>
+          <h3>돈 많이<br>버는 직장</h3>
+          <span>다양한 서비스와 활동을 통해 꾸준히 수익을 만들 수 있는 구조.</span>
+        </article>
+        <article class="manifesto-card reveal delay-2">
+          <p>03</p>
+          <h3>여러 일을<br>경험하는 직장</h3>
+          <span>주유, 세차, 정비, 출장, 수리키트 등 다양한 업무를 직접 경험합니다.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section services" id="services">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-no">02 / SERVICE</p>
+          <h2>ONE TEAM.<br><span>MANY JOBS.</span></h2>
+        </div>
+        <p class="section-desc">한 가지 역할에 갇히지 않고 상황에 맞춰 다양한 자동차 서비스를 운영합니다.</p>
+      </div>
+
+      <div class="service-list">
+        <article class="service-row reveal">
+          <div class="service-index">01</div>
+          <div class="service-icon">⛽</div>
+          <div><h3>FUEL SERVICE</h3><p>직원 주유 · 셀프 주유 운영</p></div>
+          <span class="service-tag">FUEL</span>
+        </article>
+        <article class="service-row reveal">
+          <div class="service-index">02</div>
+          <div class="service-icon">🫧</div>
+          <div><h3>CAR WASH</h3><p>사유지 세차 · 다량 차량 출장 세차</p></div>
+          <span class="service-tag">WASH</span>
+        </article>
+        <article class="service-row reveal">
+          <div class="service-index">03</div>
+          <div class="service-icon">🔧</div>
+          <div><h3>MECHANIC</h3><p>차량 수리 · 정비 · 수리키트</p></div>
+          <span class="service-tag">FIX</span>
+        </article>
+        <article class="service-row reveal">
+          <div class="service-index">04</div>
+          <div class="service-icon">🚚</div>
+          <div><h3>ROADSIDE</h3><p>남부 · 북부 긴급 출장 주유</p></div>
+          <span class="service-tag">CALL</span>
+        </article>
+        <article class="service-row reveal">
+          <div class="service-index">05</div>
+          <div class="service-icon">🏁</div>
+          <div><h3>VEHICLE WORKS</h3><p>차량 관련 지원 · 튜닝 · 현장 업무</p></div>
+          <span class="service-tag">AUTO</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section price" id="price">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-no">03 / PRICE</p>
+          <h2>PRICE<br><span>BOARD.</span></h2>
+        </div>
+        <p class="section-desc">오일픽스 이용 요금을 한눈에 확인하세요. 실제 서버 운영 정책에 따라 변경될 수 있습니다.</p>
+      </div>
+
+      <div class="price-grid">
+        <article class="price-card featured reveal">
+          <div class="price-top"><span>01</span><b>FUEL</b></div>
+          <div class="price-name">기름값</div>
+          <div class="price-value">20<small>만원 / 1L</small></div>
+          <p>직원 주유 및 셀프 주유 기준</p>
+        </article>
+        <article class="price-card reveal delay-1">
+          <div class="price-top"><span>02</span><b>CAR WASH</b></div>
+          <div class="price-name">뽀송뽀송 세차</div>
+          <div class="price-value">300<small>만원</small></div>
+          <p>청결도 유지 약 3시간 · 사유지 이용</p>
+        </article>
+        <article class="price-card reveal">
+          <div class="price-top"><span>03</span><b>SOUTH</b></div>
+          <div class="price-name">남부 긴급 주유</div>
+          <div class="price-value">200<small>만원 / 10L</small></div>
+          <p>출장비 없음</p>
+        </article>
+        <article class="price-card reveal delay-1">
+          <div class="price-top"><span>04</span><b>NORTH</b></div>
+          <div class="price-name">북부 긴급 주유</div>
+          <div class="price-value">300<small>만원 / 10L</small></div>
+          <p>출장비 포함</p>
+        </article>
+      </div>
+
+      <div class="price-note reveal">
+        <strong>NOTICE</strong>
+        <p>차량 5대 이상은 출장 세차가 가능하며, 서비스 이용 전 직원 안내를 확인해주세요.</p>
+      </div>
+    </section>
+
+    <section class="section team" id="team">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-no">04 / TEAM</p>
+          <h2>OILFIX<br><span>CREW.</span></h2>
+        </div>
+        <div class="team-total"><small>CURRENT CREW</small><strong>10 / 25</strong></div>
+      </div>
+
+      <div class="org-board reveal">
+        <div class="org-tier executive">
+          <div class="tier-label">EXECUTIVE</div>
+          <div class="people">
+            <div class="person"><span>대표이사</span><strong>이단</strong><small>#429</small></div>
+            <div class="person"><span>부대표</span><strong>리퍼</strong><small>#258</small></div>
+            <div class="person vacant"><span>이사</span><strong>공석</strong><small>OPEN</small></div>
+          </div>
+        </div>
+        <div class="org-tier">
+          <div class="tier-label">TEAM LEAD</div>
+          <div class="people">
+            <div class="person vacant"><span>교육팀장</span><strong>공석</strong><small>OPEN</small></div>
+            <div class="person vacant"><span>관리팀장</span><strong>공석</strong><small>OPEN</small></div>
+            <div class="person"><span>감사팀장</span><strong>도니</strong><small>#8</small></div>
+            <div class="person vacant"><span>홍보팀장</span><strong>공석</strong><small>OPEN</small></div>
+            <div class="person vacant"><span>인사팀장</span><strong>공석</strong><small>OPEN</small></div>
+          </div>
+        </div>
+        <div class="org-tier">
+          <div class="tier-label">MANAGER</div>
+          <div class="people managers">
+            <div class="person"><span>매니저</span><strong>무디</strong><small>#463</small></div>
+            <div class="person"><span>매니저</span><strong>보리</strong><small>#1678</small></div>
+            <div class="person"><span>매니저</span><strong>이린하</strong><small>#2161</small></div>
+            <div class="person"><span>매니저</span><strong>후지하라사토시</strong><small>#2400</small></div>
+            <div class="person"><span>매니저</span><strong>오자사다이스케</strong><small>#2401</small></div>
+            <div class="person"><span>매니저</span><strong>안강</strong><small>#325</small></div>
+            <div class="person"><span>매니저</span><strong>장프로</strong><small>#150</small></div>
+          </div>
+        </div>
+        <div class="org-tier bottom-tier">
+          <div class="tier-label">OPEN POSITION</div>
+          <div class="people">
+            <div class="person vacant"><span>인턴</span><strong>모집중</strong><small>JOIN US</small></div>
+            <div class="person vacant"><span>디자이너</span><strong>공석</strong><small>OPEN</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section notice" id="notice">
+      <div class="section-head reveal">
+        <div>
+          <p class="section-no">05 / NOTICE</p>
+          <h2>IMPORTANT<br><span>NOTICE.</span></h2>
+        </div>
+        <p class="section-desc">처음 방문하는 분과 직원 모두가 꼭 알아야 할 운영 안내입니다.</p>
+      </div>
+
+      <div class="notice-list">
+        <article class="notice-item reveal">
+          <span class="notice-date">NOTICE 01</span>
+          <div><h3>주유기 진입 시 서행해주세요.</h3><p>빠른 속도로 진입할 경우 주유기가 파손 또는 폭발할 수 있습니다. 고의 또는 반복적인 파손은 제재 대상이 될 수 있습니다.</p></div>
+          <b>↗</b>
+        </article>
+        <article class="notice-item reveal">
+          <span class="notice-date">NOTICE 02</span>
+          <div><h3>긴급주유 콜에는 정확한 사유를 작성해주세요.</h3><p>“긴급 주유 요청”, “긴급 급유 요청”처럼 직원이 즉시 이해할 수 있도록 입력해주세요.</p></div>
+          <b>↗</b>
+        </article>
+        <article class="notice-item reveal">
+          <span class="notice-date">NOTICE 03</span>
+          <div><h3>직원에게도 기본적인 매너를 부탁드립니다.</h3><p>반말, 욕설, 모욕, 고의적인 업무 방해 등은 블랙리스트 등록 사유가 될 수 있습니다.</p></div>
+          <b>↗</b>
+        </article>
+      </div>
+    </section>
+
+    <section class="section blacklist" id="blacklist">
+      <div class="blacklist-head reveal">
+        <p class="section-no">06 / BLACKLIST</p>
+        <h2>RESPECT THE CREW.<br><span>RESPECT THE RULES.</span></h2>
+        <p>직원과 이용객 모두가 편하게 이용할 수 있도록 아래 행위는 제재 대상이 될 수 있습니다.</p>
+      </div>
+
+      <div class="blacklist-grid">
+        <div class="black-reasons reveal">
+          <h3>등록 사유</h3>
+          <ul>
+            <li><span>01</span> 직원에게 반말 · 욕설 · 비하 · 모욕</li>
+            <li><span>02</span> 고의적인 방해 또는 과도한 장난</li>
+            <li><span>03</span> 사유지 내 난폭 · 위험 운전</li>
+            <li><span>04</span> 안내사항 무시 및 이용 규칙 위반</li>
+            <li><span>05</span> 호출 후 이유 없는 도주 · 반복 취소</li>
+            <li><span>06</span> 싸움 · 시비 · 분쟁 · 허위 신고</li>
+            <li><span>07</span> 장시간 차량 방치 · 무단 주차</li>
+          </ul>
+        </div>
+        <div class="penalty-board reveal delay-1">
+          <h3>PENALTY LEVEL</h3>
+          <div class="penalty"><span>1차</span><strong>3일 제한</strong><small>셀프 · 수리키트 2배</small></div>
+          <div class="penalty"><span>2차</span><strong>1주 제한</strong><small>셀프 · 수리키트 2배</small></div>
+          <div class="penalty severe"><span>3차</span><strong>영구 출장 제한</strong><small>셀프 · 수리키트 2배</small></div>
+          <p>사안이 심각한 경우 단계 없이 즉시 강한 제재가 적용될 수 있습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section recruit" id="recruit">
+      <div class="recruit-bg" aria-hidden="true">OILFIX</div>
+      <div class="recruit-inner reveal">
+        <p class="section-no">07 / RECRUITMENT</p>
+        <h2>지원서<br><span>OPEN.</span></h2>
+        <p>
+          처음이라도 괜찮습니다.<br>
+          사람과 차를 좋아하고, 함께 오래 일할 팀원을 기다립니다.
+        </p>
+        <div class="recruit-tags">
+          <span>#자유로운분위기</span>
+          <span>#다양한업무</span>
+          <span>#고수익구조</span>
+          <span>#초보환영</span>
+        </div>
+        <button class="btn btn-primary btn-large" data-open-apply>
+          <span>OILFIX 지원하기</span><b>↗</b>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <img src="assets/logo.svg" alt="OILFIX" />
+      <p>FUEL · WASH · MECHANIC · ROADSIDE</p>
+    </div>
+    <div class="footer-right">
+      <p>OILFIX OFFICIAL WEBSITE</p>
+      <small>© 2026 OILFIX. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <div class="modal" id="applyModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="applyTitle">
+      <button class="modal-close" data-close-modal aria-label="닫기">×</button>
+      <p class="eyebrow">OILFIX / APPLICATION</p>
+      <h2 id="applyTitle">지원서가<br><span>열려있습니다.</span></h2>
+      <p>아래 버튼에 실제 지원서 주소를 연결하면 지원자가 바로 이동할 수 있습니다.</p>
+      <div class="modal-info">
+        <div><small>RECRUIT</small><strong>인턴 · 디자이너 · 운영 인원</strong></div>
+        <div><small>STATUS</small><strong>OPEN</strong></div>
+      </div>
+      <a class="btn btn-primary btn-full" id="applicationLink" href="#" target="_blank" rel="noopener">
+        <span>지원서로 이동</span><b>↗</b>
+      </a>
+      <small class="modal-help">※ 링크가 아직 설정되지 않은 경우 안내 메시지가 표시됩니다.</small>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <audio id="bgm" src="assets/oilfix-bgm.mp3" preload="none" loop></audio>
+
+  <script src="site-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
