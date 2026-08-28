@@ -6,69 +6,77 @@
   const money=n=>Number(n||0).toLocaleString('ko-KR')+'원';
   const shortMoney=n=>{n=Number(n||0);if(n>=100000000)return(n/100000000).toLocaleString('ko-KR',{maximumFractionDigits:2})+'억원';if(n>=10000)return(n/10000).toLocaleString('ko-KR',{maximumFractionDigits:0})+'만원';return money(n);};
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const bridgeFrame = $('#gasBridge');
-  const pendingBridge = new Map();
-  let bridgeReadyResolve;
-  let bridgeReadyReject;
-  const bridgeReady = new Promise((resolve, reject) => {
-    bridgeReadyResolve = resolve;
-    bridgeReadyReject = reject;
-  });
-
-  function startBridge() {
-    const backend = String(window.OILFIX_BACKEND_URL || '').trim();
-
-    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(backend)) {
-      bridgeReadyReject(new Error('portal-config.js에 Apps Script /exec 주소를 입력해주세요.'));
-      return;
-    }
-
-    bridgeFrame.src = backend + (backend.includes('?') ? '&' : '?') + 'bridge=1';
-  }
+  const pendingRpc = new Map();
 
   window.addEventListener('message', event => {
-    if (event.source !== bridgeFrame.contentWindow) return;
+    // Apps Script HtmlService 결과는 script.google.com 또는
+    // script.googleusercontent.com 계열에서 실행됩니다.
+    if (!/^https:\/\/script\.google(?:usercontent)?\.com$/.test(event.origin)) return;
 
     const msg = event.data || {};
-    if (msg.source !== 'oilfix-bridge') return;
+    if (msg.source !== 'oilfix-rpc' || !msg.id || !pendingRpc.has(msg.id)) return;
 
-    if (msg.type === 'ready') {
-      bridgeReadyResolve(true);
-      return;
-    }
-
-    if (!msg.id || !pendingBridge.has(msg.id)) return;
-
-    const item = pendingBridge.get(msg.id);
-    pendingBridge.delete(msg.id);
+    const item = pendingRpc.get(msg.id);
+    pendingRpc.delete(msg.id);
     clearTimeout(item.timer);
+
+    if (item.form && item.form.parentNode) item.form.remove();
+    if (item.frame && item.frame.parentNode) item.frame.remove();
 
     if (msg.ok) item.resolve(msg.result);
     else item.reject(new Error(msg.error || '백엔드 요청에 실패했습니다.'));
   });
 
   async function gas(fn, ...args) {
-    await bridgeReady;
+    const backend = String(window.OILFIX_BACKEND_URL || '').trim();
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(backend)) {
+      throw new Error('portal-config.js에 Apps Script /exec 주소를 입력해주세요.');
+    }
 
-    const id = 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const id = 'rpc_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const frameName = 'oilfix_rpc_' + id;
+
     return new Promise((resolve, reject) => {
+      const frame = document.createElement('iframe');
+      frame.name = frameName;
+      frame.style.display = 'none';
+      frame.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(frame);
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = backend;
+      form.target = frameName;
+      form.style.display = 'none';
+
+      const fields = {
+        requestId: id,
+        fn,
+        args: JSON.stringify(args)
+      };
+
+      Object.entries(fields).forEach(([name, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+
       const timer = setTimeout(() => {
-        pendingBridge.delete(id);
-        reject(new Error('서버 응답 시간이 초과되었습니다.'));
+        pendingRpc.delete(id);
+        if (form.parentNode) form.remove();
+        if (frame.parentNode) frame.remove();
+        reject(new Error('서버 응답 시간이 초과되었습니다. Apps Script 배포 버전을 확인해주세요.'));
       }, 30000);
 
-      pendingBridge.set(id, { resolve, reject, timer });
-
-      bridgeFrame.contentWindow.postMessage({
-        source: 'oilfix-github',
-        id,
-        fn,
-        args
-      }, '*');
+      pendingRpc.set(id, { resolve, reject, timer, form, frame });
+      form.submit();
     });
   }
 
-  startBridge();
   function toast(msg,error=false){const t=$('#toast');t.textContent=msg;t.className='toast show'+(error?' error':'');clearTimeout(t._timer);t._timer=setTimeout(()=>t.className='toast',2800);}
   function busy(btn,on,text='처리 중...'){if(!btn)return;btn.disabled=on;if(on){btn.dataset.old=btn.innerHTML;btn.innerHTML=text;}else if(btn.dataset.old)btn.innerHTML=btn.dataset.old;}
   function localDate(offset=0){const now=new Date(Date.now()+offset*86400000),parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now),g=t=>parts.find(p=>p.type===t).value;return`${g('year')}-${g('month')}-${g('day')}`;}
