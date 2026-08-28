@@ -6,85 +6,101 @@
   const money=n=>Number(n||0).toLocaleString('ko-KR')+'원';
   const shortMoney=n=>{n=Number(n||0);if(n>=100000000)return(n/100000000).toLocaleString('ko-KR',{maximumFractionDigits:2})+'억원';if(n>=10000)return(n/10000).toLocaleString('ko-KR',{maximumFractionDigits:0})+'만원';return money(n);};
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const bridgeFrame = $('#gasBridge');
-  const pendingBridge = new Map();
-  let bridgeReadyResolve;
-  let bridgeReadyReject;
-  let bridgeReadyDone = false;
-
-  const bridgeReady = new Promise((resolve, reject) => {
-    bridgeReadyResolve = value => {
-      if (bridgeReadyDone) return;
-      bridgeReadyDone = true;
-      resolve(value);
-    };
-    bridgeReadyReject = error => {
-      if (bridgeReadyDone) return;
-      bridgeReadyDone = true;
-      reject(error);
-    };
-  });
-
-  function startBridge() {
-    const backend = String(window.OILFIX_BACKEND_URL || '').trim();
-
-    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(backend)) {
-      bridgeReadyReject(new Error('장부 백엔드 주소가 설정되지 않았습니다.'));
-      return;
-    }
-
-    const sep = backend.includes('?') ? '&' : '?';
-    bridgeFrame.src = backend + sep + 'bridge=1&v=' + Date.now();
-
-    setTimeout(() => {
-      if (!bridgeReadyDone) {
-        bridgeReadyReject(new Error('장부 서버 연결에 실패했습니다. Apps Script 웹 앱 배포를 확인해주세요.'));
-      }
-    }, 15000);
-  }
+  const pendingRpc = new Map();
 
   window.addEventListener('message', event => {
     const msg = event.data || {};
-    if (msg.source !== 'oilfix-bridge') return;
+    if (msg.source !== 'oilfix-rpc' || !msg.id || !pendingRpc.has(msg.id)) return;
 
-    if (msg.type === 'ready') {
-      bridgeReadyResolve(true);
+    try {
+      const host = new URL(event.origin).hostname;
+      const googleOrigin =
+        host === 'script.google.com' ||
+        host === 'googleusercontent.com' ||
+        host.endsWith('.googleusercontent.com');
+
+      if (!googleOrigin) return;
+    } catch (_) {
       return;
     }
 
-    if (!msg.id || !pendingBridge.has(msg.id)) return;
-
-    const item = pendingBridge.get(msg.id);
-    pendingBridge.delete(msg.id);
+    const item = pendingRpc.get(msg.id);
+    pendingRpc.delete(msg.id);
     clearTimeout(item.timer);
+
+    if (item.form && item.form.parentNode) item.form.remove();
+    if (item.frame && item.frame.parentNode) item.frame.remove();
 
     if (msg.ok) item.resolve(msg.result);
     else item.reject(new Error(msg.error || '백엔드 요청에 실패했습니다.'));
   });
 
   async function gas(fn, ...args) {
-    await bridgeReady;
+    const backend = String(window.OILFIX_BACKEND_URL || '').trim();
 
-    const id = 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(backend)) {
+      throw new Error('장부 백엔드 주소가 올바르지 않습니다. portal-config.js를 확인해주세요.');
+    }
+
+    const id = 'rpc_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const frameName = 'oilfix_rpc_' + id;
 
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-        pendingBridge.delete(id);
-        reject(new Error('서버 응답 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.'));
-      }, 45000);
+      const frame = document.createElement('iframe');
+      frame.name = frameName;
+      frame.id = frameName;
+      frame.setAttribute('aria-hidden', 'true');
+      frame.tabIndex = -1;
+      frame.style.cssText =
+        'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;' +
+        'border:0;left:-9999px;top:-9999px;';
+      document.body.appendChild(frame);
 
-      pendingBridge.set(id, { resolve, reject, timer });
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = backend;
+      form.target = frameName;
+      form.style.display = 'none';
+      form.acceptCharset = 'UTF-8';
 
-      bridgeFrame.contentWindow.postMessage({
-        source: 'oilfix-github',
-        id,
+      const fields = {
+        requestId: id,
         fn,
-        args
-      }, '*');
+        args: JSON.stringify(args)
+      };
+
+      Object.entries(fields).forEach(([name, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+
+      const timer = setTimeout(() => {
+        pendingRpc.delete(id);
+        if (form.parentNode) form.remove();
+        if (frame.parentNode) frame.remove();
+        reject(new Error(
+          '장부 서버에서 응답을 받지 못했습니다. Apps Script 웹 앱이 최신 버전인지 확인해주세요.'
+        ));
+      }, 30000);
+
+      pendingRpc.set(id, { resolve, reject, timer, form, frame });
+
+      try {
+        form.submit();
+      } catch (error) {
+        clearTimeout(timer);
+        pendingRpc.delete(id);
+        if (form.parentNode) form.remove();
+        if (frame.parentNode) frame.remove();
+        reject(error);
+      }
     });
   }
-
-  startBridge();
 
   function toast(msg,error=false){const t=$('#toast');t.textContent=msg;t.className='toast show'+(error?' error':'');clearTimeout(t._timer);t._timer=setTimeout(()=>t.className='toast',2800);}
   function busy(btn,on,text='처리 중...'){if(!btn)return;btn.disabled=on;if(on){btn.dataset.old=btn.innerHTML;btn.innerHTML=text;}else if(btn.dataset.old)btn.innerHTML=btn.dataset.old;}
