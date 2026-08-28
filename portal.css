@@ -37,3 +37,48 @@ footer{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1
 @media(max-width:1220px){.desktop-nav{display:none}.menu-btn{display:block}.metric-grid{grid-template-columns:repeat(3,1fr)}.hero{grid-template-columns:1fr}.hero-visual{max-width:900px}.settings-grid{grid-template-columns:1fr 1fr}.customer-metrics{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:860px){.section{padding:68px 0}.section-heading{grid-template-columns:1fr}.two-col,.admin-two{grid-template-columns:1fr}.history-filters,.audit-filters{grid-template-columns:1fr 1fr}.limit-strip{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.session-user{display:none}.recent-mini div{grid-template-columns:1fr 1fr}.audit-row{grid-template-columns:1fr 1fr}.metric-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.site-header{padding:0 15px}.brand span{font-size:18px}.header-right .ghost{display:none}.app-shell{width:min(94vw,1520px)}.hero{min-height:auto;padding-top:58px}.hero h1{font-size:56px}.hero-visual img{border-radius:18px}.section-heading h2{font-size:54px}.metric-grid,.customer-metrics,.settings-grid,.history-filters,.audit-filters{grid-template-columns:1fr}.limit-strip{grid-template-columns:1fr}.limit-item{border-right:0;border-bottom:1px solid var(--line)}.quote-grid{grid-template-columns:1fr 1fr}.inline-filter{flex-wrap:wrap}.search-bar{grid-template-columns:1fr}.audit-row{grid-template-columns:1fr}.modal-actions{grid-template-columns:1fr}.card{padding:19px}}
+
+/* =========================================================
+   EMBEDDED MODE - official index.html STAFF LEDGER section
+========================================================= */
+html.embedded,
+html.embedded body{
+  background:#f8f4ff !important;
+  min-height:100%;
+}
+html.embedded body{overflow-x:hidden}
+html.embedded .site-header,
+html.embedded .mobile-menu,
+html.embedded .hero,
+html.embedded .ticker,
+html.embedded footer{
+  display:none !important;
+}
+html.embedded .app-shell{
+  width:100% !important;
+  max-width:none !important;
+  margin:0 !important;
+}
+html.embedded .dashboard-section{
+  padding:42px 28px 25px !important;
+}
+html.embedded .section{
+  padding-left:28px !important;
+  padding-right:28px !important;
+}
+html.embedded .section.alt::before{
+  width:100% !important;
+}
+html.embedded #sale{
+  padding-top:48px !important;
+}
+html.embedded .login-layer{
+  position:fixed;
+}
+@media(max-width:620px){
+  html.embedded .dashboard-section,
+  html.embedded .section{
+    padding-left:16px !important;
+    padding-right:16px !important;
+  }
+}

@@ -1,0 +1,233 @@
+
+/* =========================================================
+   OILFIX OFFICIAL WEBSITE / INTEGRATED STAFF LEDGER
+   Existing styles.css is intentionally untouched.
+========================================================= */
+
+.oilfix-ledger-section{
+  max-width:none !important;
+  margin:0 !important;
+  padding:
+    150px
+    max(clamp(24px,4vw,54px),calc((100vw - var(--max))/2 + 54px))
+    155px !important;
+  background:
+    radial-gradient(circle at 76% 10%,rgba(217,196,255,.14),transparent 28%),
+    radial-gradient(circle at 10% 80%,rgba(184,146,255,.08),transparent 24%),
+    linear-gradient(180deg,#090c0a 0%,#0d1110 48%,#080a09 100%);
+  border-top:1px solid var(--line);
+  position:relative;
+  overflow:hidden;
+}
+
+.oilfix-ledger-section::before{
+  content:"OILFIX";
+  position:absolute;
+  right:-.04em;
+  top:.03em;
+  font:900 clamp(120px,22vw,360px)/.8 Montserrat,sans-serif;
+  letter-spacing:-.09em;
+  color:rgba(217,196,255,.025);
+  pointer-events:none;
+  white-space:nowrap;
+}
+
+.ledger-official-head{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(280px,430px);
+  gap:56px;
+  align-items:end;
+  margin-bottom:42px;
+}
+
+.ledger-official-head .section-no{margin:0 0 20px}
+
+.ledger-official-head h2{
+  margin:0;
+  font:900 clamp(50px,7vw,105px)/.84 Montserrat,sans-serif;
+  letter-spacing:-.072em;
+}
+
+.ledger-official-head h2 span{color:var(--accent)}
+
+.ledger-official-desc{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+}
+
+.ledger-official-desc strong{color:#fff}
+
+.ledger-quick-grid{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  border-top:1px solid var(--line);
+  border-left:1px solid var(--line);
+  margin-bottom:18px;
+}
+
+.ledger-quick-card{
+  min-height:125px;
+  padding:22px 24px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.018);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:.25s;
+}
+
+.ledger-quick-card:hover{
+  background:rgba(217,196,255,.07);
+  border-color:rgba(217,196,255,.24);
+}
+
+.ledger-quick-card small{
+  color:#6f7b74;
+  font:800 9px/1 Montserrat,sans-serif;
+  letter-spacing:.14em;
+}
+
+.ledger-quick-card b{
+  color:#fff;
+  font:800 16px/1.2 "Noto Sans KR",sans-serif;
+}
+
+.ledger-quick-card span{
+  color:var(--accent);
+  font:800 9px/1 Montserrat,sans-serif;
+  letter-spacing:.11em;
+}
+
+.ledger-frame-shell{
+  position:relative;
+  z-index:2;
+  border:1px solid rgba(217,196,255,.24);
+  background:#0b0e0d;
+  box-shadow:
+    0 40px 110px rgba(0,0,0,.38),
+    0 0 80px rgba(217,196,255,.055);
+}
+
+.ledger-frame-toolbar{
+  min-height:62px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  padding:13px 16px 13px 20px;
+  border-bottom:1px solid var(--line);
+  background:
+    linear-gradient(90deg,rgba(217,196,255,.07),transparent 35%),
+    #101411;
+}
+
+.ledger-frame-title{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  min-width:0;
+}
+
+.ledger-frame-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 18px rgba(217,196,255,.85);
+  flex:0 0 auto;
+}
+
+.ledger-frame-title div{display:grid;gap:3px}
+.ledger-frame-title b{
+  font:800 11px/1 Montserrat,sans-serif;
+  letter-spacing:.11em;
+}
+.ledger-frame-title small{
+  color:#718077;
+  font-size:9px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.ledger-frame-actions{display:flex;gap:7px;flex-wrap:wrap}
+.ledger-frame-actions button,
+.ledger-frame-actions a{
+  min-height:34px;
+  padding:0 12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+  color:#d8ded9;
+  font:800 9px/1 Montserrat,sans-serif;
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:.2s;
+}
+.ledger-frame-actions button:hover,
+.ledger-frame-actions a:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+}
+
+#oilfixLedgerFrame{
+  display:block;
+  width:100%;
+  height:max(760px,88vh);
+  min-height:760px;
+  border:0;
+  background:#f8f4ff;
+}
+
+.ledger-loading{
+  position:absolute;
+  inset:62px 0 0;
+  display:grid;
+  place-items:center;
+  background:#0d1110;
+  z-index:3;
+  color:#7f8c84;
+  font:800 10px/1 Montserrat,sans-serif;
+  letter-spacing:.14em;
+  transition:.25s;
+}
+.ledger-loading.hide{opacity:0;visibility:hidden;pointer-events:none}
+.ledger-loading i{
+  display:inline-block;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);
+  margin-right:8px;
+  animation:oilfix-ledger-pulse 1.2s infinite;
+}
+@keyframes oilfix-ledger-pulse{50%{opacity:.25}}
+
+.ledger-hero-link{
+  border-color:rgba(217,196,255,.34) !important;
+  color:var(--accent) !important;
+}
+
+@media(max-width:980px){
+  .ledger-official-head{grid-template-columns:1fr;gap:24px}
+  .ledger-quick-grid{grid-template-columns:1fr}
+  #oilfixLedgerFrame{height:82vh;min-height:700px}
+}
+
+@media(max-width:620px){
+  .oilfix-ledger-section{
+    padding:105px 18px 110px !important;
+  }
+  .ledger-frame-toolbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .ledger-frame-actions{width:100%}
+  .ledger-frame-actions button,.ledger-frame-actions a{flex:1}
+  #oilfixLedgerFrame{height:80vh;min-height:640px}
+}

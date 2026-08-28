@@ -1,8 +1,12 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <base target="_top">
   <meta charset="utf-8">
+  <script>
+    if (window.self !== window.top || new URLSearchParams(location.search).get('embedded') === '1') {
+      document.documentElement.classList.add('embedded');
+    }
+  </script>
   <link rel="stylesheet" href="portal.css">
 </head>
 <body>

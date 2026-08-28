@@ -9,11 +9,7 @@
   const pendingRpc = new Map();
 
   window.addEventListener('message', event => {
-    // Apps Script HtmlService 결과는 script.google.com 또는
-    // script.googleusercontent.com 계열에서 실행됩니다.
-    if (!/^https:\/\/script\.google(?:usercontent)?\.com$/.test(event.origin)) return;
-
-    const msg = event.data || {};
+const msg = event.data || {};
     if (msg.source !== 'oilfix-rpc' || !msg.id || !pendingRpc.has(msg.id)) return;
 
     const item = pendingRpc.get(msg.id);
@@ -70,7 +66,7 @@
         if (form.parentNode) form.remove();
         if (frame.parentNode) frame.remove();
         reject(new Error('서버 응답 시간이 초과되었습니다. Apps Script 배포 버전을 확인해주세요.'));
-      }, 30000);
+      }, 45000);
 
       pendingRpc.set(id, { resolve, reject, timer, form, frame });
       form.submit();
