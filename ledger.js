@@ -12,19 +12,11 @@
     const msg = event.data || {};
     if (msg.source !== 'oilfix-rpc' || !msg.id || !pendingRpc.has(msg.id)) return;
 
-    try {
-      const host = new URL(event.origin).hostname;
-      const googleOrigin =
-        host === 'script.google.com' ||
-        host === 'googleusercontent.com' ||
-        host.endsWith('.googleusercontent.com');
-
-      if (!googleOrigin) return;
-    } catch (_) {
-      return;
-    }
-
     const item = pendingRpc.get(msg.id);
+
+    // Apps Script HtmlService는 Google 샌드박스 때문에 event.origin이
+    // 'null' 또는 동적 googleusercontent 주소로 올 수 있습니다.
+    // 따라서 origin 문자열 대신, 현재 대기 중인 랜덤 requestId 일치 여부로 응답을 검증합니다.
     pendingRpc.delete(msg.id);
     clearTimeout(item.timer);
 
