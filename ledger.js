@@ -1,4 +1,4 @@
-// OILFIX_LEDGER_RPC_V4_20260829_0645
+// OILFIX_LEDGER_RPC_FINAL_V5_20260829
 (() => {
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   const tokenKey='oilfix_portal_token', ROLE_RANK={STAFF:1,MANAGER:2,ADMIN:3};
@@ -7,26 +7,87 @@
   const money=n=>Number(n||0).toLocaleString('ko-KR')+'원';
   const shortMoney=n=>{n=Number(n||0);if(n>=100000000)return(n/100000000).toLocaleString('ko-KR',{maximumFractionDigits:2})+'억원';if(n>=10000)return(n/10000).toLocaleString('ko-KR',{maximumFractionDigits:0})+'만원';return money(n);};
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const pendingRpc = new Map();
+  // ============================================================
+  // OILFIX RPC FINAL V5
+  // 1) 민감한 인수(PIN 포함)는 POST body로 Apps Script에 전달
+  // 2) Apps Script는 처리 결과를 CacheService에 requestId별 임시 저장
+  // 3) 브라우저는 JSONP GET으로 requestId 결과만 조회
+  // postMessage / iframe origin 문제를 사용하지 않습니다.
+  // ============================================================
 
-  window.addEventListener('message', event => {
-    const msg = event.data || {};
-    if (msg.source !== 'oilfix-rpc' || !msg.id || !pendingRpc.has(msg.id)) return;
+  function jsonpPoll(requestId) {
+    const backend = String(window.OILFIX_BACKEND_URL || '').trim();
 
-    const item = pendingRpc.get(msg.id);
+    return new Promise((resolve, reject) => {
+      const callbackName =
+        '__oilfixRpc_' + Date.now() + '_' + Math.random().toString(36).slice(2);
 
-    // Apps Script HtmlService는 Google 샌드박스 때문에 event.origin이
-    // 'null' 또는 동적 googleusercontent 주소로 올 수 있습니다.
-    // 따라서 origin 문자열 대신, 현재 대기 중인 랜덤 requestId 일치 여부로 응답을 검증합니다.
-    pendingRpc.delete(msg.id);
-    clearTimeout(item.timer);
+      const script = document.createElement('script');
+      let done = false;
 
-    if (item.form && item.form.parentNode) item.form.remove();
-    if (item.frame && item.frame.parentNode) item.frame.remove();
+      const cleanup = () => {
+        if (done) return;
+        done = true;
+        try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+        if (script.parentNode) script.remove();
+      };
 
-    if (msg.ok) item.resolve(msg.result);
-    else item.reject(new Error(msg.error || '백엔드 요청에 실패했습니다.'));
-  });
+      const timer = setTimeout(() => {
+        cleanup();
+        reject(new Error('RPC 조회 응답 시간이 초과되었습니다.'));
+      }, 12000);
+
+      window[callbackName] = payload => {
+        clearTimeout(timer);
+        cleanup();
+        resolve(payload || { state: 'pending' });
+      };
+
+      script.onerror = () => {
+        clearTimeout(timer);
+        cleanup();
+        reject(new Error('장부 서버 조회에 실패했습니다.'));
+      };
+
+      const sep = backend.includes('?') ? '&' : '?';
+      script.src =
+        backend + sep +
+        'rpcPoll=1' +
+        '&requestId=' + encodeURIComponent(requestId) +
+        '&callback=' + encodeURIComponent(callbackName) +
+        '&_=' + Date.now() + Math.random();
+
+      document.head.appendChild(script);
+    });
+  }
+
+  async function waitRpcResult(requestId, timeoutMs = 45000) {
+    const started = Date.now();
+    let lastError = null;
+
+    while (Date.now() - started < timeoutMs) {
+      try {
+        const payload = await jsonpPoll(requestId);
+
+        if (payload && payload.state === 'done') {
+          if (payload.ok) return payload.result;
+          throw new Error(payload.error || '백엔드 요청에 실패했습니다.');
+        }
+      } catch (error) {
+        lastError = error;
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 900));
+    }
+
+    if (lastError) {
+      throw new Error(
+        '장부 서버 처리 결과를 확인하지 못했습니다. ' + (lastError.message || '')
+      );
+    }
+
+    throw new Error('장부 서버 응답 시간이 초과되었습니다.');
+  }
 
   async function gas(fn, ...args) {
     const backend = String(window.OILFIX_BACKEND_URL || '').trim();
@@ -35,64 +96,62 @@
       throw new Error('장부 백엔드 주소가 올바르지 않습니다. portal-config.js를 확인해주세요.');
     }
 
-    const id = 'rpc_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-    const frameName = 'oilfix_rpc_' + id;
+    const requestId =
+      'RPCV5_' + Date.now() + '_' +
+      Math.random().toString(36).slice(2) + '_' +
+      Math.random().toString(36).slice(2);
 
-    return new Promise((resolve, reject) => {
-      const frame = document.createElement('iframe');
-      frame.name = frameName;
-      frame.id = frameName;
-      frame.setAttribute('aria-hidden', 'true');
-      frame.tabIndex = -1;
-      frame.style.cssText =
-        'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;' +
-        'border:0;left:-9999px;top:-9999px;';
-      document.body.appendChild(frame);
+    // 요청은 POST로 보냅니다. PIN/인수는 URL에 들어가지 않습니다.
+    const frameName = 'oilfix_post_' + requestId;
+    const frame = document.createElement('iframe');
+    frame.name = frameName;
+    frame.id = frameName;
+    frame.setAttribute('aria-hidden', 'true');
+    frame.tabIndex = -1;
+    frame.style.cssText =
+      'position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;' +
+      'border:0;left:-9999px;top:-9999px;';
+    document.body.appendChild(frame);
 
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = backend;
-      form.target = frameName;
-      form.style.display = 'none';
-      form.acceptCharset = 'UTF-8';
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = backend;
+    form.target = frameName;
+    form.style.display = 'none';
+    form.acceptCharset = 'UTF-8';
 
-      const fields = {
-        requestId: id,
-        fn,
-        args: JSON.stringify(args)
-      };
+    const fields = {
+      requestId,
+      fn,
+      args: JSON.stringify(args),
+      rpcMode: 'cache'
+    };
 
-      Object.entries(fields).forEach(([name, value]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = name;
-        input.value = value;
-        form.appendChild(input);
-      });
-
-      document.body.appendChild(form);
-
-      const timer = setTimeout(() => {
-        pendingRpc.delete(id);
-        if (form.parentNode) form.remove();
-        if (frame.parentNode) frame.remove();
-        reject(new Error(
-          '장부 서버에서 응답을 받지 못했습니다. Apps Script 웹 앱이 최신 버전인지 확인해주세요.'
-        ));
-      }, 30000);
-
-      pendingRpc.set(id, { resolve, reject, timer, form, frame });
-
-      try {
-        form.submit();
-      } catch (error) {
-        clearTimeout(timer);
-        pendingRpc.delete(id);
-        if (form.parentNode) form.remove();
-        if (frame.parentNode) frame.remove();
-        reject(error);
-      }
+    Object.entries(fields).forEach(([name, value]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
     });
+
+    document.body.appendChild(form);
+
+    try {
+      form.submit();
+    } catch (error) {
+      if (form.parentNode) form.remove();
+      if (frame.parentNode) frame.remove();
+      throw error;
+    }
+
+    // form/iframe은 요청 전송 후 잠시 뒤 제거.
+    setTimeout(() => {
+      if (form.parentNode) form.remove();
+      if (frame.parentNode) frame.remove();
+    }, 15000);
+
+    return await waitRpcResult(requestId);
   }
 
   function toast(msg,error=false){const t=$('#toast');t.textContent=msg;t.className='toast show'+(error?' error':'');clearTimeout(t._timer);t._timer=setTimeout(()=>t.className='toast',2800);}
