@@ -1,2 +1,159 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=index.html#staff-ledger"><title>OILFIX | 직원 장부</title></head><body><script>location.replace("index.html#staff-ledger");</script></body></html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#090b0a" />
+  <meta name="description" content="OILFIX 오일픽스 직원 운영 장부" />
+  <title>OILFIX · 직원 장부</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="ledger.css" />
+</head>
+<body>
+  <div class="progress" id="pageProgress"></div>
+
+  <header class="ledger-header">
+    <a href="index.html" class="ledger-brand"><img src="assets/logo.svg" alt="OILFIX"></a>
+    <div class="header-status"><span class="live"></span><span>STAFF LEDGER ONLINE</span></div>
+    <div class="header-actions"><span id="sessionUser">SIGNED OUT</span><button id="logoutBtn" class="header-btn">LOGOUT</button><a href="index.html" class="back-link">← 공식 홈페이지</a></div>
+  </header>
+
+  <aside class="side-nav" aria-label="장부 목차">
+    <a href="#overview"><span>00</span>대시보드</a>
+    <a href="#sale"><span>01</span>장부 작성</a>
+    <a href="#customer"><span>02</span>고객 조회</a>
+    <a href="#history"><span>03</span>거래 내역</a>
+    <a href="#postpaid" data-role-min="MANAGER"><span>04</span>후불 정산</a>
+    <a href="#stats"><span>05</span>직원 통계</a>
+    <a href="#blacklist"><span>06</span>블랙리스트</a>
+    <a href="#audit" data-role-min="MANAGER"><span>07</span>감사 로그</a>
+    <a href="#admin" data-role-only="ADMIN"><span>08</span>관리자</a>
+  </aside>
+
+  <main class="ledger-main" id="app">
+    <section class="ledger-hero" id="overview">
+      <div class="hero-meta">
+        <div><small>운영 상태</small><strong class="accent-text">정상 운영 중</strong></div>
+        <div><small>기준 시간</small><strong>KST / <span id="liveClock">--:--:--</span></strong></div>
+        <div><small>로그인 직원</small><strong id="heroUserName">-</strong></div>
+        <div><small>권한</small><strong id="heroUserRole">-</strong></div>
+      </div>
+      <div class="hero-title-wrap">
+        <p class="eyebrow">OILFIX STAFF OPERATIONS CENTER</p>
+        <h1>오일픽스<br><span>직원 장부.</span></h1>
+        <p class="lead">수리키트 판매부터 고객 조회, 후불 정산, 직원 통계와 감사기록까지.<br>기존 장부 기능은 그대로, 공식 홈페이지 스타일로 새롭게 관리합니다.</p>
+      </div>
+      <div class="process six">
+        <article><span>TODAY SALES</span><strong id="mTodaySales">0원</strong><p id="mTodayTx">0건</p></article>
+        <article><span>TODAY KIT</span><strong id="mTodayQty">0</strong><p>개 판매</p></article>
+        <article><span>POLICE UNPAID</span><strong id="mPolice">0원</strong><p id="mPoliceCount">0건</p></article>
+        <article><span>GOLDMOON UNPAID</span><strong id="mGoldmoon">0원</strong><p id="mGoldmoonCount">0건</p></article>
+        <article><span>GOLDEN BELL</span><strong id="mBell">0</strong><p>오늘 무료 처리</p></article>
+        <article><span>BLACKLIST</span><strong id="mBlack">0</strong><p>활성 등록</p></article>
+      </div>
+      <div class="limit-strip" id="limitStrip"></div>
+    </section>
+
+    <section class="form-section" id="sale">
+      <div class="section-label"><span>01</span><div><h2>장부 작성</h2><p>판매 직원은 로그인 계정으로 자동 기록됩니다.</p></div></div>
+      <div class="layout-two">
+        <article class="panel">
+          <div class="panel-head"><div><small>SELLER / AUTO RECORD</small><h3 id="sellerAutoName">로그인 직원</h3></div><span class="status-chip">LIVE</span></div>
+          <form id="saleForm">
+            <div class="field-grid two">
+              <label class="field"><span>구매자 고유번호 <b>*</b></span><input id="saleGameId" required placeholder="예: 429"></label>
+              <label class="field"><span>구매자 이름 <b>*</b></span><input id="saleNickname" required placeholder="예: 이단"></label>
+            </div>
+            <div class="field-grid two">
+              <label class="field"><span>구분 <b>*</b></span><select id="saleType"><option>일반직</option><option>경찰</option><option>보안국</option><option>골드앤캐쉬</option><option>골드문모터스</option></select></label>
+              <label class="field"><span>수량 <b>*</b></span><input id="saleQty" type="number" min="1" value="1" required><small id="saleLimitHint">하루 최대 10개</small></label>
+            </div>
+            <label class="golden-check"><input id="saleGolden" type="checkbox"><div><b>GOLDEN BELL / 무료 처리</b><small>모든 유저·팩션 공통 0원 · 경찰/골드문모터스도 후불 제외</small></div></label>
+            <button type="button" class="action secondary" id="quoteBtn">가격 · 구매한도 확인</button>
+            <div class="quote-grid"><div><span>단가</span><b id="qUnit">-</b></div><div><span>오늘 구매</span><b id="qUsed">-</b></div><div><span>추가 가능</span><b id="qRemain">-</b></div><div><span>총 결제</span><b id="qTotal">-</b></div><p id="qMessage">등록 전에 가격과 일일 한도를 확인해주세요.</p></div>
+            <button type="submit" class="action primary" id="saleSubmit">장부에 등록 →</button>
+          </form>
+        </article>
+        <article class="panel guide-panel">
+          <div class="panel-head"><div><small>DAILY LIMIT</small><h3>판매 전 확인</h3></div></div>
+          <div class="rule-list"><div><span>일반직</span><b>10개 / DAY</b></div><div><span>경찰</span><b>30개 / DAY · 월요일 정산</b></div><div><span>보안국</span><b>30개 / DAY</b></div><div><span>골드앤캐쉬</span><b>20개 / DAY</b></div><div><span>골드문모터스</span><b>10개 / DAY · 일요일 정산</b></div></div>
+          <div class="notice-box danger"><b>BLACKLIST</b><span>기존 가격 규칙 자동 적용</span></div>
+          <div class="notice-box"><b>GOLDEN BELL</b><span>0원 무료 · 후불 제외</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="form-section" id="customer">
+      <div class="section-label"><span>02</span><div><h2>고객 통합 조회</h2><p>고유번호 또는 이름으로 구매량·블랙·후불·누적 기록을 한 번에 확인합니다.</p></div></div>
+      <div class="search-row"><input id="customerQuery" placeholder="고유번호 또는 이름"><button class="action primary compact" id="customerSearchBtn">조회 →</button></div>
+      <div id="customerResults" class="customer-results empty-state">고객을 검색하면 통합 고객카드가 표시됩니다.</div>
+    </section>
+
+    <section class="form-section" id="history">
+      <div class="section-label"><span>03</span><div><h2>거래 내역</h2><p>날짜·판매직원·고객·구분·결제·골든벨 상태로 상세 검색합니다.</p></div></div>
+      <div class="panel">
+        <div class="filter-grid four">
+          <label class="field"><span>시작일</span><input type="date" id="histStart"></label><label class="field"><span>종료일</span><input type="date" id="histEnd"></label>
+          <label class="field"><span>검색</span><input id="histQuery" placeholder="이름·고유번호·직원"></label><label class="field"><span>판매직원</span><select id="histSeller"><option value="">전체</option></select></label>
+          <label class="field"><span>구분</span><select id="histType"><option value="">전체</option></select></label>
+          <label class="field"><span>결제</span><select id="histPayment"><option value="">전체</option><option>결제완료</option><option>주간미결제</option><option>주간결제완료</option><option>무료(골든벨)</option></select></label>
+          <label class="field"><span>골든벨</span><select id="histGolden"><option value="">전체</option><option value="Y">골든벨만</option><option value="N">일반 거래만</option></select></label>
+          <label class="field"><span>상태</span><select id="histStatus"><option value="">전체</option><option value="ACTIVE">정상</option><option value="CANCELLED">취소</option></select></label>
+        </div>
+        <button class="action primary compact" id="historySearchBtn">거래내역 조회</button><div class="history-summary"><span id="historyCount">0건</span><b id="historyAmount">0원</b></div>
+        <div class="table-wrap"><table><thead><tr><th>일시</th><th>판매직원</th><th>구매자</th><th>고유번호</th><th>구분</th><th>수량</th><th>단가</th><th>총액</th><th>골든벨</th><th>결제</th><th>상태</th><th></th></tr></thead><tbody id="historyBody"><tr><td colspan="12" class="empty-cell">조회 버튼을 눌러주세요.</td></tr></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="form-section" id="postpaid" data-role-min="MANAGER">
+      <div class="section-label"><span>04</span><div><h2>후불 정산</h2><p>경찰과 골드문모터스 후불을 각각 분리하여 정산합니다.</p></div></div>
+      <div class="layout-two">
+        <article class="panel"><div class="panel-head"><div><small>POLICE / MONDAY</small><h3>경찰 후불결제</h3></div><span class="status-chip">월요일</span></div><div class="settlement-row"><span>미정산 전체</span><b id="policeOutstanding">0원</b><small id="policeOutstandingCount">0건</small></div><div class="settlement-row"><span>오늘 정산 대상</span><b id="policeEligible">0원</b><small id="policeEligibleCount">0건</small></div><button class="action secondary" id="previewPoliceBtn">정산 대상 새로고침</button><button class="action primary" id="settlePoliceBtn">정산확정</button><div class="deferred-list" id="policeDeferredList"></div></article>
+        <article class="panel"><div class="panel-head"><div><small>GOLDMOON / SUNDAY</small><h3>골드문모터스 후불결제</h3></div><span class="status-chip">일요일</span></div><div class="settlement-row"><span>미정산 전체</span><b id="goldmoonOutstanding">0원</b><small id="goldmoonOutstandingCount">0건</small></div><div class="settlement-row"><span>오늘 정산 대상</span><b id="goldmoonEligible">0원</b><small id="goldmoonEligibleCount">0건</small></div><button class="action secondary" id="previewGoldmoonBtn">정산 대상 새로고침</button><button class="action primary" id="settleGoldmoonBtn">정산확정</button><div class="deferred-list" id="goldmoonDeferredList"></div></article>
+      </div>
+    </section>
+
+    <section class="form-section" id="stats">
+      <div class="section-label"><span>05</span><div><h2>직원 판매 통계</h2><p>기간별 판매건수·수량·금액·골든벨·후불 처리 건수를 확인합니다.</p></div></div>
+      <div class="panel"><div class="inline-filter"><input type="date" id="statsStart"><span>→</span><input type="date" id="statsEnd"><button class="action primary compact" id="statsBtn">통계 조회</button></div><div class="table-wrap"><table><thead><tr><th>순위</th><th>직원</th><th>거래</th><th>판매수량</th><th>판매금액</th><th>골든벨</th><th>후불</th></tr></thead><tbody id="statsBody"><tr><td colspan="7" class="empty-cell">통계를 조회해주세요.</td></tr></tbody></table></div></div>
+    </section>
+
+    <section class="form-section" id="blacklist">
+      <div class="section-label"><span>06</span><div><h2>블랙리스트</h2><p>블랙리스트 여부는 판매 가격 계산에 자동으로 반영됩니다.</p></div></div>
+      <div class="layout-two">
+        <article class="panel" data-role-min="MANAGER"><div class="panel-head"><div><small>REGISTER</small><h3>블랙리스트 등록</h3></div></div><form id="blackForm"><div class="field-grid two"><label class="field"><span>고유번호 *</span><input id="blackGameId" required></label><label class="field"><span>이름</span><input id="blackName"></label></div><label class="field"><span>등록 사유 *</span><textarea id="blackReason" rows="4" required></textarea></label><button class="action danger">블랙리스트 등록</button></form></article>
+        <article class="panel"><div class="panel-head"><div><small>ACTIVE LIST</small><h3>활성 블랙리스트</h3></div><button class="mini-btn" id="blackRefreshBtn">REFRESH</button></div><div id="blackList" class="black-list empty-state">불러오는 중...</div></article>
+      </div>
+    </section>
+
+    <section class="form-section" id="audit" data-role-min="MANAGER">
+      <div class="section-label"><span>07</span><div><h2>감사 로그</h2><p>판매·수정·삭제·정산·블랙·계정·설정 변경 기록을 확인합니다.</p></div></div>
+      <div class="panel"><div class="filter-grid four"><label class="field"><span>시작일</span><input type="date" id="auditStart"></label><label class="field"><span>종료일</span><input type="date" id="auditEnd"></label><label class="field"><span>검색</span><input id="auditQuery" placeholder="직원·대상·사유"></label><label class="field"><span>행동</span><select id="auditAction"><option value="">전체</option><option>CREATE_SALE</option><option>UPDATE_DEFERRED</option><option>DELETE_DEFERRED</option><option>CANCEL_TRANSACTION</option><option>SETTLEMENT</option><option>ADD_BLACKLIST</option><option>REMOVE_BLACKLIST</option><option>CREATE_USER</option><option>UPDATE_USER</option><option>UPDATE_SETTINGS</option></select></label></div><button class="action primary compact" id="auditBtn">감사기록 조회</button><div id="auditList" class="audit-list empty-state">감사기록을 조회해주세요.</div></div>
+    </section>
+
+    <section class="form-section" id="admin" data-role-only="ADMIN">
+      <div class="section-label"><span>08</span><div><h2>관리자 설정</h2><p>직원 계정과 가격·한도·중복감지 설정을 관리합니다.</p></div></div>
+      <div class="admin-tabs"><button class="active" data-admin-tab="users">직원 계정</button><button data-admin-tab="settings">장부 설정</button></div>
+      <div id="adminUsersPanel" class="admin-panel"><div class="layout-two admin-two"><article class="panel"><div class="panel-head"><div><small>USER ACCOUNT</small><h3>직원 계정 추가·수정</h3></div></div><form id="userForm"><input type="hidden" id="userEditId"><div class="field-grid two"><label class="field"><span>로그인 ID *</span><input id="userLoginId" required></label><label class="field"><span>직원 이름 *</span><input id="userDisplayName" required></label><label class="field"><span>PIN</span><input id="userPin" type="password" inputmode="numeric"></label><label class="field"><span>권한 *</span><select id="userRole"><option>STAFF</option><option>MANAGER</option><option>ADMIN</option></select></label></div><label class="toggle-line"><input id="userActive" type="checkbox" checked><span>활성 계정</span></label><button class="action primary">계정 저장</button><button type="button" class="action secondary" id="userFormReset">새 계정 작성</button></form></article><article class="panel"><div id="userList" class="user-list empty-state">직원 계정을 불러오는 중...</div></article></div></div>
+      <div id="adminSettingsPanel" class="admin-panel hidden"><article class="panel"><div class="panel-head"><div><small>GLOBAL SETTINGS</small><h3>장부 기본 설정</h3></div><span class="status-chip">ADMIN ONLY</span></div><form id="settingsForm" class="settings-grid"><label class="field"><span>수리키트 기본 가격</span><input id="setBasePrice" type="number" min="1"></label><label class="field"><span>블랙리스트 가격 배수</span><input id="setBlackMultiplier" type="number" min="1" max="10" step="0.1"></label><label class="field"><span>일반직 일일 한도</span><input id="setLimitGeneral" type="number" min="1"></label><label class="field"><span>경찰 일일 한도</span><input id="setLimitPolice" type="number" min="1"></label><label class="field"><span>보안국 일일 한도</span><input id="setLimitSecurity" type="number" min="1"></label><label class="field"><span>골드앤캐쉬 일일 한도</span><input id="setLimitGoldcash" type="number" min="1"></label><label class="field"><span>골드문모터스 일일 한도</span><input id="setLimitGoldmoon" type="number" min="1"></label><label class="field"><span>중복등록 감지 시간(초)</span><input id="setDuplicateSec" type="number" min="5"></label><button class="action primary settings-submit">설정 저장</button></form><p class="admin-warning">변경된 가격과 한도는 새 거래부터 적용되며 감사로그에 기록됩니다.</p></article></div>
+    </section>
+
+    <footer class="ledger-footer"><div><b>OILFIX STAFF OPERATIONS</b><span>FUEL · WASH · MECHANIC · REPAIR KIT · LEDGER</span></div><small>© 2026 OILFIX · INTERNAL OPERATIONS</small></footer>
+  </main>
+
+  <div id="loginLayer" class="login-layer"><div class="login-card"><a href="index.html" class="login-logo"><img src="assets/logo.svg" alt="OILFIX"></a><p class="eyebrow">OILFIX / AUTHORIZED STAFF ONLY</p><h2>직원<br><span>로그인.</span></h2><p>개인 직원 계정으로 로그인하면 판매자 이름이 장부에 자동 기록됩니다.</p><form id="loginForm"><label class="field"><span>LOGIN ID</span><input id="loginId" autocomplete="username" required></label><label class="field"><span>PIN</span><input id="loginPin" type="password" inputmode="numeric" autocomplete="current-password" required></label><button class="action primary">장부 접속 →</button></form><small class="initial-note">최초 설치 기본 관리자: <b>admin / 1234</b></small></div></div>
+
+  <div id="forcePinLayer" class="login-layer hidden"><div class="login-card compact-login"><p class="eyebrow">SECURITY / FIRST LOGIN</p><h2>PIN<br><span>변경.</span></h2><p>초기 PIN을 새 PIN으로 변경해야 계속 사용할 수 있습니다.</p><label class="field"><span>현재 PIN</span><input id="forceOldPin" type="password" inputmode="numeric"></label><label class="field"><span>새 PIN (숫자 4~12자리)</span><input id="forceNewPin" type="password" inputmode="numeric"></label><button class="action primary" id="forcePinBtn">PIN 변경</button></div></div>
+
+  <div id="confirmModal" class="modal hidden"><div class="modal-bg" data-modal-close></div><div class="modal-card"><p class="eyebrow">OILFIX / CONFIRM</p><h3 id="confirmTitle">확인</h3><p id="confirmText"></p><label id="confirmReasonWrap" class="field hidden"><span>사유 *</span><textarea id="confirmReason" rows="3"></textarea></label><div class="modal-actions"><button class="action secondary" id="confirmCancel">취소</button><button class="action primary" id="confirmOk">확인</button></div></div></div>
+
+  <div id="deferredEditModal" class="modal hidden"><div class="modal-bg" data-edit-close></div><div class="modal-card"><p class="eyebrow">POSTPAID / EDIT</p><h3>후불 거래 수정</h3><input id="editDeferredId" type="hidden"><div class="field-grid two"><label class="field"><span>판매직원</span><select id="editDeferredSeller"></select></label><label class="field"><span>구매자 고유번호</span><input id="editDeferredGameId"></label><label class="field"><span>구매자 이름</span><input id="editDeferredName"></label><label class="field"><span>수량</span><input id="editDeferredQty" type="number" min="1"></label></div><label class="field"><span>수정 사유 *</span><textarea id="editDeferredReason" rows="3"></textarea></label><div class="modal-actions"><button class="action secondary" id="editDeferredCancel">취소</button><button class="action primary" id="editDeferredSave">저장</button></div></div></div>
+
+  <div class="toast" id="toast"></div>
+  <script src="portal-config.js"></script>
+  <script src="ledger.js"></script>
+</body>
+</html>
