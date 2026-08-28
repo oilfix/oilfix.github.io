@@ -144,7 +144,7 @@
     <footer class="ledger-footer"><div><b>OILFIX STAFF OPERATIONS</b><span>FUEL · WASH · MECHANIC · REPAIR KIT · LEDGER</span></div><small>© 2026 OILFIX · INTERNAL OPERATIONS</small></footer>
   </main>
 
-  <div id="loginLayer" class="login-layer"><div class="login-card"><a href="index.html" class="login-logo"><img src="assets/logo.svg" alt="OILFIX"></a><p class="eyebrow">OILFIX / AUTHORIZED STAFF ONLY</p><h2>직원<br><span>로그인.</span></h2><p>개인 직원 계정으로 로그인하면 판매자 이름이 장부에 자동 기록됩니다.</p><form id="loginForm"><label class="field"><span>LOGIN ID</span><input id="loginId" autocomplete="username" required></label><label class="field"><span>PIN</span><input id="loginPin" type="password" inputmode="numeric" autocomplete="current-password" required></label><button class="action primary">장부 접속 →</button></form><small class="initial-note">최초 설치 기본 관리자: <b>admin / 1234</b></small></div></div>
+  <div id="loginLayer" class="login-layer"><div class="login-card"><a href="index.html" class="login-logo"><img src="assets/logo.svg" alt="OILFIX"></a><p class="eyebrow">OILFIX / AUTHORIZED STAFF ONLY</p><h2>직원<br><span>로그인.</span></h2><p>개인 직원 계정으로 로그인하면 판매자 이름이 장부에 자동 기록됩니다.</p><form id="loginForm"><label class="field"><span>LOGIN ID</span><input id="loginId" autocomplete="username" required></label><label class="field"><span>PIN</span><input id="loginPin" type="password" inputmode="numeric" autocomplete="current-password" required></label><button class="action primary">장부 접속 →</button></form></div></div>
 
   <div id="forcePinLayer" class="login-layer hidden"><div class="login-card compact-login"><p class="eyebrow">SECURITY / FIRST LOGIN</p><h2>PIN<br><span>변경.</span></h2><p>초기 PIN을 새 PIN으로 변경해야 계속 사용할 수 있습니다.</p><label class="field"><span>현재 PIN</span><input id="forceOldPin" type="password" inputmode="numeric"></label><label class="field"><span>새 PIN (숫자 4~12자리)</span><input id="forceNewPin" type="password" inputmode="numeric"></label><button class="action primary" id="forcePinBtn">PIN 변경</button></div></div>
 
@@ -153,6 +153,8 @@
   <div id="deferredEditModal" class="modal hidden"><div class="modal-bg" data-edit-close></div><div class="modal-card"><p class="eyebrow">POSTPAID / EDIT</p><h3>후불 거래 수정</h3><input id="editDeferredId" type="hidden"><div class="field-grid two"><label class="field"><span>판매직원</span><select id="editDeferredSeller"></select></label><label class="field"><span>구매자 고유번호</span><input id="editDeferredGameId"></label><label class="field"><span>구매자 이름</span><input id="editDeferredName"></label><label class="field"><span>수량</span><input id="editDeferredQty" type="number" min="1"></label></div><label class="field"><span>수정 사유 *</span><textarea id="editDeferredReason" rows="3"></textarea></label><div class="modal-actions"><button class="action secondary" id="editDeferredCancel">취소</button><button class="action primary" id="editDeferredSave">저장</button></div></div></div>
 
   <div class="toast" id="toast"></div>
+  <iframe id="gasBridge" title="OILFIX backend bridge" aria-hidden="true" tabindex="-1"
+          style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;border:0;left:-9999px;top:-9999px"></iframe>
   <script src="portal-config.js"></script>
   <script src="ledger.js"></script>
 </body>
