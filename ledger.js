@@ -1,3 +1,4 @@
+// OILFIX_LEDGER_RPC_V4_20260829_0645
 (() => {
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   const tokenKey='oilfix_portal_token', ROLE_RANK={STAFF:1,MANAGER:2,ADMIN:3};
