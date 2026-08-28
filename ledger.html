@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="ledger.css" />
 </head>
 <body>
+  <div class="noise" aria-hidden="true"></div>
   <div class="progress" id="pageProgress"></div>
 
   <header class="ledger-header">
@@ -153,7 +154,7 @@
   <div id="deferredEditModal" class="modal hidden"><div class="modal-bg" data-edit-close></div><div class="modal-card"><p class="eyebrow">POSTPAID / EDIT</p><h3>후불 거래 수정</h3><input id="editDeferredId" type="hidden"><div class="field-grid two"><label class="field"><span>판매직원</span><select id="editDeferredSeller"></select></label><label class="field"><span>구매자 고유번호</span><input id="editDeferredGameId"></label><label class="field"><span>구매자 이름</span><input id="editDeferredName"></label><label class="field"><span>수량</span><input id="editDeferredQty" type="number" min="1"></label></div><label class="field"><span>수정 사유 *</span><textarea id="editDeferredReason" rows="3"></textarea></label><div class="modal-actions"><button class="action secondary" id="editDeferredCancel">취소</button><button class="action primary" id="editDeferredSave">저장</button></div></div></div>
 
   <div class="toast" id="toast"></div>
-<script src="portal-config.js"></script>
-  <script src="ledger.js?v=FINAL_V5_20260829"></script>
+  <script src="ledger-config.js"></script>
+  <script src="ledger.js"></script>
 </body>
 </html>
