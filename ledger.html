@@ -137,8 +137,39 @@
 
     <section class="form-section" id="admin" data-role-only="ADMIN">
       <div class="section-label"><span>08</span><div><h2>관리자 설정</h2><p>직원 계정과 가격·한도·중복감지 설정을 관리합니다.</p></div></div>
-      <div class="admin-tabs"><button class="active" data-admin-tab="users">직원 계정</button><button data-admin-tab="settings">장부 설정</button></div>
+      <div class="admin-tabs"><button class="active" data-admin-tab="users">직원 계정</button><button data-admin-tab="team">직급표 관리</button><button data-admin-tab="settings">장부 설정</button></div>
       <div id="adminUsersPanel" class="admin-panel"><div class="layout-two admin-two"><article class="panel"><div class="panel-head"><div><small>USER ACCOUNT</small><h3>직원 계정 추가·수정</h3></div></div><form id="userForm"><input type="hidden" id="userEditId"><div class="field-grid two"><label class="field"><span>로그인 ID *</span><input id="userLoginId" required></label><label class="field"><span>직원 이름 *</span><input id="userDisplayName" required></label><label class="field"><span>PIN</span><input id="userPin" type="password" inputmode="numeric"></label><label class="field"><span>권한 *</span><select id="userRole"><option>STAFF</option><option>MANAGER</option><option>ADMIN</option></select></label></div><label class="toggle-line"><input id="userActive" type="checkbox" checked><span>활성 계정</span></label><button class="action primary">계정 저장</button><button type="button" class="action secondary" id="userFormReset">새 계정 작성</button></form></article><article class="panel"><div id="userList" class="user-list empty-state">직원 계정을 불러오는 중...</div></article></div></div>
+
+      <div id="adminTeamPanel" class="admin-panel hidden">
+        <div class="team-admin-grid">
+          <article class="panel">
+            <div class="panel-head"><div><small>CREW CAPACITY</small><h3>현재 인원 · 총원</h3></div><span class="status-chip">LIVE SITE</span></div>
+            <form id="teamMetaForm" class="field-grid two">
+              <label class="field"><span>현재 인원</span><input id="teamCurrent" type="number" min="0" required></label>
+              <label class="field"><span>총원</span><input id="teamCapacity" type="number" min="1" required></label>
+              <button class="action primary team-wide">인원 설정 저장</button>
+            </form>
+            <p class="admin-warning">저장하면 공식 홈페이지의 CURRENT CREW와 TEAM CAPACITY가 자동으로 변경됩니다.</p>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><small>ORGANIZATION</small><h3>직급 · 이름 · 고번 수정</h3></div></div>
+            <form id="teamMemberForm">
+              <input type="hidden" id="teamEditId">
+              <div class="field-grid two">
+                <label class="field"><span>그룹 *</span><select id="teamTier"><option>EXECUTIVE</option><option>TEAM LEAD</option><option>MANAGER</option><option>OPEN POSITION</option></select></label>
+                <label class="field"><span>직급 *</span><input id="teamPosition" placeholder="예: 감사팀장 / 매니저" required></label>
+                <label class="field"><span>이름 *</span><input id="teamName" placeholder="예: 도니 / 공석"></label>
+                <label class="field"><span>고유번호</span><input id="teamGameId" inputmode="numeric" placeholder="예: 8"></label>
+                <label class="field"><span>정렬 순서</span><input id="teamSortOrder" type="number" min="0" max="999" value="10"></label>
+                <label class="toggle-line team-vacant"><input id="teamVacant" type="checkbox"><span>공석 / 모집중</span></label>
+              </div>
+              <button class="action primary">직급표 저장</button>
+              <button type="button" class="action secondary" id="teamFormReset">새 항목 작성</button>
+            </form>
+          </article>
+        </div>
+        <article class="panel team-list-panel"><div class="panel-head"><div><small>LIVE ORGANIZATION</small><h3>홈페이지 직급표</h3></div><button class="mini-btn" id="teamRefreshBtn">REFRESH</button></div><div id="teamAdminList" class="team-admin-list empty-state">직급표를 불러오는 중...</div></article>
+      </div>
       <div id="adminSettingsPanel" class="admin-panel hidden"><article class="panel"><div class="panel-head"><div><small>GLOBAL SETTINGS</small><h3>장부 기본 설정</h3></div><span class="status-chip">ADMIN ONLY</span></div><form id="settingsForm" class="settings-grid"><label class="field"><span>수리키트 기본 가격</span><input id="setBasePrice" type="number" min="1"></label><label class="field"><span>블랙리스트 가격 배수</span><input id="setBlackMultiplier" type="number" min="1" max="10" step="0.1"></label><label class="field"><span>일반직 일일 한도</span><input id="setLimitGeneral" type="number" min="1"></label><label class="field"><span>경찰 일일 한도</span><input id="setLimitPolice" type="number" min="1"></label><label class="field"><span>보안국 일일 한도</span><input id="setLimitSecurity" type="number" min="1"></label><label class="field"><span>골드앤캐쉬 일일 한도</span><input id="setLimitGoldcash" type="number" min="1"></label><label class="field"><span>골드문모터스 일일 한도</span><input id="setLimitGoldmoon" type="number" min="1"></label><label class="field"><span>중복등록 감지 시간(초)</span><input id="setDuplicateSec" type="number" min="5"></label><button class="action primary settings-submit">설정 저장</button></form><p class="admin-warning">변경된 가격과 한도는 새 거래부터 적용되며 감사로그에 기록됩니다.</p></article></div>
     </section>
 

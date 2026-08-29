@@ -3,9 +3,9 @@ window.OILFIX_CONFIG = {
   applicationUrl: "apply.html",
   applicationEndpoint: "https://script.google.com/macros/s/AKfycbwFFvXUxiWlf4wdtmUKQbYMXEyfqrARZk2NvJ1zHvkQaod1rYGWf83zDE_-zboq0yDq/exec",
   discordUrl: "",
-  enableBgm: true
+  enableBgm: true,
+  teamApiUrl: "https://oilfix-ledger-api.herim2468007.workers.dev"
 };
-
 // 공식 홈페이지에 장부 페이지 링크만 추가합니다. 포털/iframe은 삽입하지 않습니다.
 (() => {
   const addLedgerLinks = () => {
@@ -22,6 +22,11 @@ window.OILFIX_CONFIG = {
       const a=document.createElement('a'); a.className='btn btn-ghost'; a.href='ledger.html'; a.dataset.ledgerLink='1'; a.innerHTML='<span>직원 장부</span><b>↗</b>'; hero.appendChild(a);
     }
   };
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',addLedgerLinks,{once:true});
-  else addLedgerLinks();
+  const addTeamLive = () => {
+    if (document.querySelector('script[data-oilfix-team-live]')) return;
+    const s=document.createElement('script');s.src='team-live.js';s.dataset.oilfixTeamLive='1';document.body.appendChild(s);
+  };
+  const boot=()=>{addLedgerLinks();addTeamLive();};
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
+  else boot();
 })();
