@@ -27,3 +27,24 @@
 /* TEAM ADMIN */
 .team-admin-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:12px}.team-wide{grid-column:1/-1}.team-vacant{align-self:end;margin:0 0 8px}.team-list-panel{margin-top:12px}.team-admin-list{display:grid;gap:8px;margin-top:12px}.team-admin-row{display:grid;grid-template-columns:150px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);background:var(--panel);padding:13px}.team-admin-row .team-tier{font:800 9px/1 Montserrat,sans-serif;color:var(--accent);letter-spacing:.06em}.team-admin-row b{display:block;font-size:11px}.team-admin-row span{display:block;margin-top:4px;color:#78847c;font-size:8px}.team-admin-actions{display:flex;gap:6px}.team-admin-row.vacant{opacity:.72}.team-admin-summary{display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(217,196,255,.22);padding:12px;margin-bottom:10px;background:rgba(217,196,255,.035)}.team-admin-summary strong{font:900 18px/1 Montserrat,sans-serif;color:var(--accent)}
 @media(max-width:900px){.team-admin-grid{grid-template-columns:1fr}.team-admin-row{grid-template-columns:1fr}.team-admin-actions{justify-content:flex-start}}
+
+
+/* OILFIX WHEREYA + ATTENDANCE EXPANSION */
+.process.seven{grid-template-columns:repeat(7,minmax(0,1fr))}
+.layout-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.postpaid-three .panel{min-width:0}
+.attendance-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:18px}
+.attendance-kpis{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);margin:20px 0 12px}
+.attendance-kpis>div{padding:16px 18px;display:grid;gap:5px}.attendance-kpis>div+div{border-left:1px solid var(--line)}
+.attendance-kpis span,.attendance-kpis small{font-size:11px;color:var(--muted)}.attendance-kpis b{font-size:22px}
+.attendance-progress{height:10px;border:1px solid var(--line);overflow:hidden;background:rgba(255,255,255,.02)}.attendance-progress i,.mini-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#fff);transition:width .3s ease}
+.attendance-progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin:7px 0 18px}.attendance-progress-label b{color:var(--text)}
+.attendance-current{border:1px solid var(--line);padding:15px 16px;margin-bottom:14px;color:var(--muted)}.attendance-current b{color:var(--accent);margin-right:5px}
+.attendance-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.attendance-actions .action{margin:0}
+.status-chip.on-duty{background:rgba(206,177,255,.14);color:var(--accent);border-color:rgba(206,177,255,.5)}
+.leave-list{display:grid;gap:8px;margin-top:14px}.leave-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);padding:12px 14px}.leave-row>div:first-child{display:grid;gap:4px}.leave-row b{font-size:13px}.leave-row span{font-size:11px;color:var(--muted)}
+.attendance-history-panel{margin-top:18px}.attendance-manager{margin-top:34px;border-top:1px solid var(--line);padding-top:28px}.section-subhead{display:flex;align-items:end;gap:14px;margin-bottom:16px}.section-subhead>div:first-child{margin-right:auto}.section-subhead small{font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:.16em;color:var(--accent)}.section-subhead h3{margin:4px 0 0;font-size:24px}.week-pick{min-width:180px;margin:0}
+.attendance-manage-grid{margin-top:18px}.attendance-status{display:inline-flex;padding:4px 8px;border:1px solid var(--line);font-size:10px;font-weight:800}.attendance-status.ok{color:#d9ffe2;border-color:rgba(150,255,177,.35)}.attendance-status.warn{color:#ffe4a8;border-color:rgba(255,207,105,.35)}.attendance-status.danger{color:#ffb0ba;border-color:rgba(255,110,128,.45)}.attendance-status.leave{color:var(--accent);border-color:rgba(206,177,255,.45)}
+.mini-progress{width:100px;height:7px;border:1px solid var(--line);margin-bottom:4px}.table-sub{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+@media(max-width:1200px){.process.seven{grid-template-columns:repeat(4,minmax(0,1fr))}.layout-three{grid-template-columns:1fr}.attendance-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.process.seven{grid-template-columns:repeat(2,minmax(0,1fr))}.attendance-kpis{grid-template-columns:1fr}.attendance-kpis>div+div{border-left:0;border-top:1px solid var(--line)}.section-subhead{align-items:stretch;flex-direction:column}.week-pick{min-width:0;width:100%}}

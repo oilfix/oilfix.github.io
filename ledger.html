@@ -27,11 +27,12 @@
     <a href="#sale"><span>01</span>장부 작성</a>
     <a href="#customer"><span>02</span>고객 조회</a>
     <a href="#history"><span>03</span>거래 내역</a>
-    <a href="#postpaid" data-role-min="MANAGER"><span>04</span>후불 정산</a>
-    <a href="#stats"><span>05</span>직원 통계</a>
-    <a href="#blacklist"><span>06</span>블랙리스트</a>
-    <a href="#audit" data-role-min="MANAGER"><span>07</span>감사 로그</a>
-    <a href="#admin" data-role-only="ADMIN"><span>08</span>관리자</a>
+    <a href="#attendance"><span>04</span>출퇴근 · 근태</a>
+    <a href="#postpaid" data-role-min="MANAGER"><span>05</span>후불 정산</a>
+    <a href="#stats"><span>06</span>직원 통계</a>
+    <a href="#blacklist"><span>07</span>블랙리스트</a>
+    <a href="#audit" data-role-min="MANAGER"><span>08</span>감사 로그</a>
+    <a href="#admin" data-role-only="ADMIN"><span>09</span>관리자</a>
   </aside>
 
   <main class="ledger-main" id="app">
@@ -47,11 +48,12 @@
         <h1>오일픽스<br><span>직원 장부.</span></h1>
         <p class="lead">수리키트 판매부터 고객 조회, 후불 정산, 직원 통계와 감사기록까지.<br>기존 장부 기능은 그대로, 공식 홈페이지 스타일로 새롭게 관리합니다.</p>
       </div>
-      <div class="process six">
+      <div class="process seven">
         <article><span>TODAY SALES</span><strong id="mTodaySales">0원</strong><p id="mTodayTx">0건</p></article>
         <article><span>TODAY KIT</span><strong id="mTodayQty">0</strong><p>개 판매</p></article>
         <article><span>POLICE UNPAID</span><strong id="mPolice">0원</strong><p id="mPoliceCount">0건</p></article>
         <article><span>GOLDMOON UNPAID</span><strong id="mGoldmoon">0원</strong><p id="mGoldmoonCount">0건</p></article>
+        <article><span>WHEREYA UNPAID</span><strong id="mWhereya">0원</strong><p id="mWhereyaCount">0건</p></article>
         <article><span>GOLDEN BELL</span><strong id="mBell">0</strong><p>오늘 무료 처리</p></article>
         <article><span>BLACKLIST</span><strong id="mBlack">0</strong><p>활성 등록</p></article>
       </div>
@@ -69,10 +71,10 @@
               <label class="field"><span>구매자 이름 <b>*</b></span><input id="saleNickname" required placeholder="예: 이단"></label>
             </div>
             <div class="field-grid two">
-              <label class="field"><span>구분 <b>*</b></span><select id="saleType"><option>일반직</option><option>경찰</option><option>보안국</option><option>골드앤캐쉬</option><option>골드문모터스</option></select></label>
+              <label class="field"><span>구분 <b>*</b></span><select id="saleType"><option>일반직</option><option>경찰</option><option>보안국</option><option>골드앤캐쉬</option><option>골드문모터스</option><option>어디야</option></select></label>
               <label class="field"><span>수량 <b>*</b></span><input id="saleQty" type="number" min="1" value="1" required><small id="saleLimitHint">하루 최대 10개</small></label>
             </div>
-            <label class="golden-check"><input id="saleGolden" type="checkbox"><div><b>GOLDEN BELL / 무료 처리</b><small>모든 유저·팩션 공통 0원 · 경찰/골드문모터스도 후불 제외</small></div></label>
+            <label class="golden-check"><input id="saleGolden" type="checkbox"><div><b>GOLDEN BELL / 무료 처리</b><small>모든 유저·팩션 공통 0원 · 경찰/골드문모터스/어디야도 후불 제외</small></div></label>
             <button type="button" class="action secondary" id="quoteBtn">가격 · 구매한도 확인</button>
             <div class="quote-grid"><div><span>단가</span><b id="qUnit">-</b></div><div><span>오늘 구매</span><b id="qUsed">-</b></div><div><span>추가 가능</span><b id="qRemain">-</b></div><div><span>총 결제</span><b id="qTotal">-</b></div><p id="qMessage">등록 전에 가격과 일일 한도를 확인해주세요.</p></div>
             <button type="submit" class="action primary" id="saleSubmit">장부에 등록 →</button>
@@ -80,7 +82,7 @@
         </article>
         <article class="panel guide-panel">
           <div class="panel-head"><div><small>DAILY LIMIT</small><h3>판매 전 확인</h3></div></div>
-          <div class="rule-list"><div><span>일반직</span><b>10개 / DAY</b></div><div><span>경찰</span><b>30개 / DAY · 월요일 정산</b></div><div><span>보안국</span><b>30개 / DAY</b></div><div><span>골드앤캐쉬</span><b>20개 / DAY</b></div><div><span>골드문모터스</span><b>10개 / DAY · 일요일 정산</b></div></div>
+          <div class="rule-list"><div><span>일반직</span><b>10개 / DAY</b></div><div><span>경찰</span><b>30개 / DAY · 후불</b></div><div><span>보안국</span><b>30개 / DAY</b></div><div><span>골드앤캐쉬</span><b>20개 / DAY</b></div><div><span>골드문모터스</span><b>10개 / DAY · 후불</b></div><div><span>어디야</span><b>10개 / DAY · 할인 없음 · 후불</b></div></div>
           <div class="notice-box danger"><b>BLACKLIST</b><span>기존 가격 규칙 자동 적용</span></div>
           <div class="notice-box"><b>GOLDEN BELL</b><span>0원 무료 · 후불 제외</span></div>
         </article>
@@ -109,21 +111,53 @@
       </div>
     </section>
 
+
+    <section class="form-section" id="attendance">
+      <div class="section-label"><span>04</span><div><h2>출퇴근 · 근태 관리</h2><p>주간 15시간 접속을 기준으로 출근·퇴근 시간을 기록하고 휴가·지각·조기퇴근·무단결근을 관리합니다.</p></div></div>
+      <div class="attendance-grid">
+        <article class="panel attendance-my">
+          <div class="panel-head"><div><small>MY ATTENDANCE</small><h3>내 출퇴근</h3></div><span class="status-chip" id="attendanceStateChip">OFF DUTY</span></div>
+          <div class="attendance-kpis"><div><span>이번 주</span><b id="attWeekHours">0시간</b><small id="attWeekRange">-</small></div><div><span>주간 목표</span><b id="attTargetHours">15시간</b><small id="attRemaining">15시간 남음</small></div></div>
+          <div class="attendance-progress"><i id="attProgressBar"></i></div><div class="attendance-progress-label"><span>주간 달성률</span><b id="attProgressText">0%</b></div>
+          <div class="attendance-current" id="attendanceCurrent">현재 퇴근 상태입니다.</div>
+          <label class="field"><span>출퇴근 메모 (선택)</span><input id="attendanceNote" placeholder="예: 야간 근무 / 행사 지원"></label>
+          <div class="attendance-actions"><button class="action primary" id="clockInBtn">출근</button><button class="action secondary" id="clockOutBtn">퇴근</button></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><small>LEAVE REQUEST</small><h3>휴가 신청</h3></div><span class="status-chip">직원 신청 가능</span></div>
+          <form id="leaveRequestForm"><label class="field"><span>휴가 날짜 *</span><input id="leaveDate" type="date" required></label><label class="field"><span>휴가 사유 *</span><textarea id="leaveReason" rows="3" placeholder="사유를 입력해주세요." required></textarea></label><button class="action primary">휴가 신청 →</button></form>
+          <div id="myLeaveList" class="leave-list empty-state">휴가 신청 내역이 없습니다.</div>
+        </article>
+      </div>
+      <article class="panel attendance-history-panel"><div class="panel-head"><div><small>MY WORK LOG</small><h3>내 최근 출퇴근 기록</h3></div><button class="mini-btn" id="attendanceRefreshBtn">REFRESH</button></div><div class="table-wrap"><table><thead><tr><th>날짜</th><th>출근</th><th>퇴근</th><th>근무시간</th><th>상태</th><th>메모</th></tr></thead><tbody id="myAttendanceBody"><tr><td colspan="6" class="empty-cell">출퇴근 기록을 불러오는 중...</td></tr></tbody></table></div></article>
+
+      <div class="attendance-manager" data-role-min="MANAGER">
+        <div class="section-subhead"><div><small>MANAGER CONTROL</small><h3>직원 근태 관리</h3></div><label class="field week-pick"><span>조회 주</span><input id="attendanceWeekDate" type="date"></label><button class="action secondary compact" id="attendanceAdminRefreshBtn">근태 새로고침</button></div>
+        <article class="panel"><div class="panel-head"><div><small>WEEKLY 15H TARGET</small><h3>직원별 주간 접속 현황</h3></div></div><div class="table-wrap"><table><thead><tr><th>직원</th><th>주간시간</th><th>달성률</th><th>최근 출근</th><th>지각</th><th>조기퇴근</th><th>무단결근</th><th>휴가</th></tr></thead><tbody id="attendanceSummaryBody"><tr><td colspan="8" class="empty-cell">근태 현황을 불러오는 중...</td></tr></tbody></table></div></article>
+        <div class="layout-two attendance-manage-grid">
+          <article class="panel"><div class="panel-head"><div><small>MANUAL RECORD</small><h3>근태 기록 추가·수정</h3></div></div><form id="attendanceAdminForm"><input id="attAdminEditId" type="hidden"><div class="field-grid two"><label class="field"><span>직원 *</span><select id="attAdminUser" required></select></label><label class="field"><span>날짜 *</span><input id="attAdminDate" type="date" required></label><label class="field"><span>상태 *</span><select id="attAdminStatus"><option>정상</option><option>지각</option><option>조기퇴근</option><option>지각·조기퇴근</option><option>무단결근</option><option>휴가</option></select></label><label class="field"><span>출근 시간</span><input id="attAdminClockIn" type="time"></label><label class="field"><span>퇴근 시간</span><input id="attAdminClockOut" type="time"></label></div><label class="field"><span>메모</span><textarea id="attAdminNote" rows="3" placeholder="지각 사유, 조기퇴근 사유 등"></textarea></label><button class="action primary">근태 저장</button><button class="action secondary" id="attAdminReset" type="button">새 기록 작성</button></form></article>
+          <article class="panel"><div class="panel-head"><div><small>LEAVE APPROVAL</small><h3>휴가 승인 · 반려</h3></div></div><div id="leaveAdminList" class="leave-list empty-state">이번 주 휴가 신청이 없습니다.</div></article>
+        </div>
+        <article class="panel"><div class="panel-head"><div><small>ATTENDANCE RECORDS</small><h3>주간 근태 상세 기록</h3></div></div><div class="table-wrap"><table><thead><tr><th>날짜</th><th>직원</th><th>출근</th><th>퇴근</th><th>시간</th><th>상태</th><th>메모</th><th></th></tr></thead><tbody id="attendanceAdminRecordsBody"><tr><td colspan="8" class="empty-cell">근태 기록을 불러오는 중...</td></tr></tbody></table></div></article>
+      </div>
+    </section>
+
     <section class="form-section" id="postpaid" data-role-min="MANAGER">
-      <div class="section-label"><span>04</span><div><h2>후불 정산</h2><p>경찰과 골드문모터스 후불을 각각 분리하여 정산합니다.</p></div></div>
-      <div class="layout-two">
-        <article class="panel"><div class="panel-head"><div><small>POLICE / MONDAY</small><h3>경찰 후불결제</h3></div><span class="status-chip">월요일</span></div><div class="settlement-row"><span>미정산 전체</span><b id="policeOutstanding">0원</b><small id="policeOutstandingCount">0건</small></div><div class="settlement-row"><span>오늘 정산 대상</span><b id="policeEligible">0원</b><small id="policeEligibleCount">0건</small></div><button class="action secondary" id="previewPoliceBtn">정산 대상 새로고침</button><button class="action primary" id="settlePoliceBtn">정산확정</button><div class="deferred-list" id="policeDeferredList"></div></article>
-        <article class="panel"><div class="panel-head"><div><small>GOLDMOON / SUNDAY</small><h3>골드문모터스 후불결제</h3></div><span class="status-chip">일요일</span></div><div class="settlement-row"><span>미정산 전체</span><b id="goldmoonOutstanding">0원</b><small id="goldmoonOutstandingCount">0건</small></div><div class="settlement-row"><span>오늘 정산 대상</span><b id="goldmoonEligible">0원</b><small id="goldmoonEligibleCount">0건</small></div><button class="action secondary" id="previewGoldmoonBtn">정산 대상 새로고침</button><button class="action primary" id="settleGoldmoonBtn">정산확정</button><div class="deferred-list" id="goldmoonDeferredList"></div></article>
+      <div class="section-label"><span>05</span><div><h2>후불 정산</h2><p>경찰·골드문모터스·어디야 후불을 각각 분리하여 관리합니다. 어디야는 별도 할인 없이 기본 가격으로 후불 등록됩니다.</p></div></div>
+      <div class="layout-three postpaid-three">
+        <article class="panel"><div class="panel-head"><div><small>POLICE / POSTPAID</small><h3>경찰 후불결제</h3></div><span class="status-chip">수시 정산</span></div><div class="settlement-row"><span>미정산 전체</span><b id="policeOutstanding">0원</b><small id="policeOutstandingCount">0건</small></div><div class="settlement-row"><span>정산 대상</span><b id="policeEligible">0원</b><small id="policeEligibleCount">0건</small></div><button class="action secondary" id="previewPoliceBtn">정산 대상 새로고침</button><button class="action primary" id="settlePoliceBtn">정산확정</button><div class="deferred-list" id="policeDeferredList"></div></article>
+        <article class="panel"><div class="panel-head"><div><small>GOLDMOON / POSTPAID</small><h3>골드문모터스 후불결제</h3></div><span class="status-chip">15% 할인</span></div><div class="settlement-row"><span>미정산 전체</span><b id="goldmoonOutstanding">0원</b><small id="goldmoonOutstandingCount">0건</small></div><div class="settlement-row"><span>정산 대상</span><b id="goldmoonEligible">0원</b><small id="goldmoonEligibleCount">0건</small></div><button class="action secondary" id="previewGoldmoonBtn">정산 대상 새로고침</button><button class="action primary" id="settleGoldmoonBtn">정산확정</button><div class="deferred-list" id="goldmoonDeferredList"></div></article>
+        <article class="panel"><div class="panel-head"><div><small>WHEREYA / POSTPAID</small><h3>어디야 후불결제</h3></div><span class="status-chip">할인 없음</span></div><div class="settlement-row"><span>미정산 전체</span><b id="whereyaOutstanding">0원</b><small id="whereyaOutstandingCount">0건</small></div><div class="settlement-row"><span>정산 대상</span><b id="whereyaEligible">0원</b><small id="whereyaEligibleCount">0건</small></div><button class="action secondary" id="previewWhereyaBtn">정산 대상 새로고침</button><button class="action primary" id="settleWhereyaBtn">정산확정</button><div class="deferred-list" id="whereyaDeferredList"></div></article>
       </div>
     </section>
 
     <section class="form-section" id="stats">
-      <div class="section-label"><span>05</span><div><h2>직원 판매 통계</h2><p>기간별 판매건수·수량·금액·골든벨·후불 처리 건수를 확인합니다.</p></div></div>
+      <div class="section-label"><span>06</span><div><h2>직원 판매 통계</h2><p>기간별 판매건수·수량·금액·골든벨·후불 처리 건수를 확인합니다.</p></div></div>
       <div class="panel"><div class="inline-filter"><input type="date" id="statsStart"><span>→</span><input type="date" id="statsEnd"><button class="action primary compact" id="statsBtn">통계 조회</button></div><div class="table-wrap"><table><thead><tr><th>순위</th><th>직원</th><th>거래</th><th>판매수량</th><th>판매금액</th><th>골든벨</th><th>후불</th></tr></thead><tbody id="statsBody"><tr><td colspan="7" class="empty-cell">통계를 조회해주세요.</td></tr></tbody></table></div></div>
     </section>
 
     <section class="form-section" id="blacklist">
-      <div class="section-label"><span>06</span><div><h2>블랙리스트</h2><p>블랙리스트 여부는 판매 가격 계산에 자동으로 반영됩니다.</p></div></div>
+      <div class="section-label"><span>07</span><div><h2>블랙리스트</h2><p>블랙리스트 여부는 판매 가격 계산에 자동으로 반영됩니다.</p></div></div>
       <div class="layout-two">
         <article class="panel" data-role-min="MANAGER"><div class="panel-head"><div><small>REGISTER</small><h3>블랙리스트 등록</h3></div></div><form id="blackForm"><div class="field-grid two"><label class="field"><span>고유번호 *</span><input id="blackGameId" required></label><label class="field"><span>이름</span><input id="blackName"></label></div><label class="field"><span>등록 사유 *</span><textarea id="blackReason" rows="4" required></textarea></label><button class="action danger">블랙리스트 등록</button></form></article>
         <article class="panel"><div class="panel-head"><div><small>ACTIVE LIST</small><h3>활성 블랙리스트</h3></div><button class="mini-btn" id="blackRefreshBtn">REFRESH</button></div><div id="blackList" class="black-list empty-state">불러오는 중...</div></article>
@@ -131,12 +165,12 @@
     </section>
 
     <section class="form-section" id="audit" data-role-min="MANAGER">
-      <div class="section-label"><span>07</span><div><h2>감사 로그</h2><p>판매·수정·삭제·정산·블랙·계정·설정 변경 기록을 확인합니다.</p></div></div>
+      <div class="section-label"><span>08</span><div><h2>감사 로그</h2><p>판매·수정·삭제·정산·블랙·계정·설정 변경 기록을 확인합니다.</p></div></div>
       <div class="panel"><div class="filter-grid four"><label class="field"><span>시작일</span><input type="date" id="auditStart"></label><label class="field"><span>종료일</span><input type="date" id="auditEnd"></label><label class="field"><span>검색</span><input id="auditQuery" placeholder="직원·대상·사유"></label><label class="field"><span>행동</span><select id="auditAction"><option value="">전체</option><option>CREATE_SALE</option><option>UPDATE_DEFERRED</option><option>DELETE_DEFERRED</option><option>CANCEL_TRANSACTION</option><option>SETTLEMENT</option><option>ADD_BLACKLIST</option><option>REMOVE_BLACKLIST</option><option>CREATE_USER</option><option>UPDATE_USER</option><option>UPDATE_SETTINGS</option></select></label></div><button class="action primary compact" id="auditBtn">감사기록 조회</button><div id="auditList" class="audit-list empty-state">감사기록을 조회해주세요.</div></div>
     </section>
 
     <section class="form-section" id="admin" data-role-only="ADMIN">
-      <div class="section-label"><span>08</span><div><h2>관리자 설정</h2><p>직원 계정과 가격·한도·중복감지 설정을 관리합니다.</p></div></div>
+      <div class="section-label"><span>09</span><div><h2>관리자 설정</h2><p>직원 계정과 가격·한도·중복감지 설정을 관리합니다.</p></div></div>
       <div class="admin-tabs"><button class="active" data-admin-tab="users">직원 계정</button><button data-admin-tab="team">직급표 관리</button><button data-admin-tab="settings">장부 설정</button></div>
       <div id="adminUsersPanel" class="admin-panel"><div class="layout-two admin-two"><article class="panel"><div class="panel-head"><div><small>USER ACCOUNT</small><h3>직원 계정 추가·수정</h3></div></div><form id="userForm"><input type="hidden" id="userEditId"><div class="field-grid two"><label class="field"><span>로그인 ID *</span><input id="userLoginId" required></label><label class="field"><span>직원 이름 *</span><input id="userDisplayName" required></label><label class="field"><span>PIN</span><input id="userPin" type="password" inputmode="numeric"></label><label class="field"><span>권한 *</span><select id="userRole"><option>STAFF</option><option>MANAGER</option><option>ADMIN</option></select></label></div><label class="toggle-line"><input id="userActive" type="checkbox" checked><span>활성 계정</span></label><button class="action primary">계정 저장</button><button type="button" class="action secondary" id="userFormReset">새 계정 작성</button></form></article><article class="panel"><div id="userList" class="user-list empty-state">직원 계정을 불러오는 중...</div></article></div></div>
 
@@ -170,7 +204,7 @@
         </div>
         <article class="panel team-list-panel"><div class="panel-head"><div><small>LIVE ORGANIZATION</small><h3>홈페이지 직급표</h3></div><button class="mini-btn" id="teamRefreshBtn">REFRESH</button></div><div id="teamAdminList" class="team-admin-list empty-state">직급표를 불러오는 중...</div></article>
       </div>
-      <div id="adminSettingsPanel" class="admin-panel hidden"><article class="panel"><div class="panel-head"><div><small>GLOBAL SETTINGS</small><h3>장부 기본 설정</h3></div><span class="status-chip">ADMIN ONLY</span></div><form id="settingsForm" class="settings-grid"><label class="field"><span>수리키트 기본 가격</span><input id="setBasePrice" type="number" min="1"></label><label class="field"><span>블랙리스트 가격 배수</span><input id="setBlackMultiplier" type="number" min="1" max="10" step="0.1"></label><label class="field"><span>경찰 협약 할인율 (%)</span><input id="setDiscountPolice" type="number" min="0" max="100" step="1"></label><label class="field"><span>보안국 협약 할인율 (%)</span><input id="setDiscountSecurity" type="number" min="0" max="100" step="1"></label><label class="field"><span>골드앤캐쉬 협약 할인율 (%)</span><input id="setDiscountGoldcash" type="number" min="0" max="100" step="1"></label><label class="field"><span>일반직 일일 한도</span><input id="setLimitGeneral" type="number" min="1"></label><label class="field"><span>경찰 일일 한도</span><input id="setLimitPolice" type="number" min="1"></label><label class="field"><span>보안국 일일 한도</span><input id="setLimitSecurity" type="number" min="1"></label><label class="field"><span>골드앤캐쉬 일일 한도</span><input id="setLimitGoldcash" type="number" min="1"></label><label class="field"><span>골드문모터스 일일 한도</span><input id="setLimitGoldmoon" type="number" min="1"></label><label class="field"><span>중복등록 감지 시간(초)</span><input id="setDuplicateSec" type="number" min="5"></label><button class="action primary settings-submit">설정 저장</button></form><p class="admin-warning">변경된 가격·협약 할인율·한도는 새 거래부터 적용되며 감사로그에 기록됩니다. 블랙리스트 대상은 협약 할인보다 블랙리스트 가격 배수가 우선합니다.</p></article></div>
+      <div id="adminSettingsPanel" class="admin-panel hidden"><article class="panel"><div class="panel-head"><div><small>GLOBAL SETTINGS</small><h3>장부 기본 설정</h3></div><span class="status-chip">ADMIN ONLY</span></div><form id="settingsForm" class="settings-grid"><label class="field"><span>수리키트 기본 가격</span><input id="setBasePrice" type="number" min="1"></label><label class="field"><span>블랙리스트 가격 배수</span><input id="setBlackMultiplier" type="number" min="1" max="10" step="0.1"></label><label class="field"><span>경찰 협약 할인율 (%)</span><input id="setDiscountPolice" type="number" min="0" max="100" step="1"></label><label class="field"><span>보안국 협약 할인율 (%)</span><input id="setDiscountSecurity" type="number" min="0" max="100" step="1"></label><label class="field"><span>골드앤캐쉬 협약 할인율 (%)</span><input id="setDiscountGoldcash" type="number" min="0" max="100" step="1"></label><label class="field"><span>일반직 일일 한도</span><input id="setLimitGeneral" type="number" min="1"></label><label class="field"><span>경찰 일일 한도</span><input id="setLimitPolice" type="number" min="1"></label><label class="field"><span>보안국 일일 한도</span><input id="setLimitSecurity" type="number" min="1"></label><label class="field"><span>골드앤캐쉬 일일 한도</span><input id="setLimitGoldcash" type="number" min="1"></label><label class="field"><span>골드문모터스 일일 한도</span><input id="setLimitGoldmoon" type="number" min="1"></label><label class="field"><span>어디야 일일 한도</span><input id="setLimitWhereya" type="number" min="1"></label><label class="field"><span>주간 출근 목표 시간</span><input id="setWeeklyTargetHours" type="number" min="1" max="168"></label><label class="field"><span>중복등록 감지 시간(초)</span><input id="setDuplicateSec" type="number" min="5"></label><button class="action primary settings-submit">설정 저장</button></form><p class="admin-warning">변경된 가격·협약 할인율·한도는 새 거래부터 적용되며 감사로그에 기록됩니다. 블랙리스트 대상은 협약 할인보다 블랙리스트 가격 배수가 우선합니다.</p></article></div>
     </section>
 
     <footer class="ledger-footer"><div><b>OILFIX STAFF OPERATIONS</b><span>FUEL · WASH · MECHANIC · REPAIR KIT · LEDGER</span></div><small>© 2026 OILFIX · INTERNAL OPERATIONS</small></footer>
